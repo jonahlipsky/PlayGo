@@ -54,7 +54,7 @@
     * Begun work on chat room feature
   * By end of Sunday, February 10th:
     * Complete chat room feature
-    * Implement Seki automatic scoring
+    * Implement Seki automatic scoring (Bonus 1)
     
 ## Bonus Features
   * Bonus 1: Implement Seki automatic scoring. 'Seki', or 'mutual life', is when neither player is said to have taken the other's pieces because either player making a move to surround the other's pieces would result in their own peices being taken. It is a sort of a draw in a local board position and affords no points to either player. 

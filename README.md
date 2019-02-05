@@ -13,16 +13,21 @@
     * Feature 2: One-sided turn based clickable game interacting with the game board. 
       * Users on the same computer can play a game of Go by clicking on the game board at a certain position.
       * Stone will automatically be assigned to black or white depending on the turn
-    * Feature 3: Two-sided turn based game
-      * Users who come to the website can enter their name. Once two individuals have 'logged in', the game begins.
-      * Users will be able to make moves and their moves will be represented on the other computer in real time.
-    * Feature 4: "Pass" button and automatic Scoring
+    * Feature 3: "Pass" button and automatic Scoring
       * Implement a 'pass turn' button. The game ends when both players press the 'pass turn' button on their turn.
       * Using a rule set, automatically tabulate the final score.
          * Captured territory is scored for the player who surrounds those crosses.
          * Captured stones subtracted from their owners final score. 
          * Stones contained within another persons territory, if they do not contain an 'eye', are considered taken. 
          * Rules for acknowledgeing 'seki' or 'mutual life' where neither person can be said to be encircling the others stones in a certain board position.
+     * Feature 4: Two-sided turn based game
+       * Users who come to the website can enter their name. Once two individuals have 'logged in', the game begins.
+       * Users will be able to make moves and their moves will be represented on the other computer in real time.
+       * The first user to the site chooses whether the game is 9x9, 13x13 or 19x19. 
+       * When two players have logged in, and player one has selected the game board, the game begins. If more than two players log in, the first two to arrive are the ones who play the game.
+     * Feature 5: Chat Room feature
+       * Everyone who logs into the site are represented as a username in a user list
+       * Everyone, both players and spectators, can comment and have their posts publicly seen by all in attendance
 * Architecture and Technologies
     * Technology 1
         * Description

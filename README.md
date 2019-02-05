@@ -17,8 +17,11 @@
       * Users who come to the website can enter their name. Once two individuals have 'logged in', the game begins.
       * Users will be able to make moves and their moves will be represented on the other computer in real time.
     * Feature 4: "Pass" button and automatic Scoring
-      * The
-      * Using a rule set, automatically tabulate the final score 
+      * Implement a 'pass turn' button. The game ends when both players press the 'pass turn' button on their turn.
+      * Using a rule set, automatically tabulate the final score.
+         * Captured territory is scored for the player who surrounds those crosses.
+         * Captured stones subtracted from their owners final score. 
+         * Stones contained within another persons territory, if they do not contain an 'eye', are considered taken. 
 * Architecture and Technologies
     * Technology 1
         * Description

@@ -11,9 +11,11 @@
       * Illegal moves include: playing in a position that would result in being immediately taken and repeating a board position less than 1 full turn (both players playing) after it was previously seen.
       * Game board input allows for 9x9, 13x13 and 19x19 boards.
     * Feature 2: One-sided turn based clickable game interacting with the game board. 
-       * Users on the same computer can play a game of Go by clicking on the game board at a certain position.
-       * Stone will automatically be assigned to black or white depending on the turn
-       
+      * Users on the same computer can play a game of Go by clicking on the game board at a certain position.
+      * Stone will automatically be assigned to black or white depending on the turn
+    * Feature 3: Two-sided turn based game
+      * Users who come to the website can enter their name. Once two individuals have 'logged in', the game begins.
+      * Users will be able to make moves and their moves will be represented on the other computer in real time.       
 * Architecture and Technologies
     * Technology 1
         * Description

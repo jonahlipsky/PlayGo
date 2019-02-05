@@ -22,6 +22,7 @@
          * Captured territory is scored for the player who surrounds those crosses.
          * Captured stones subtracted from their owners final score. 
          * Stones contained within another persons territory, if they do not contain an 'eye', are considered taken. 
+         * Rules for acknowledgeing 'seki' or 'mutual life' where neither person can be said to be encircling the others stones in a certain board position.
 * Architecture and Technologies
     * Technology 1
         * Description

@@ -29,11 +29,11 @@
        * Everyone who logs into the site are represented as a username in a user list
        * Everyone, both players and spectators, can comment and have their posts publicly seen by all in attendance
 * Architecture and Technologies
-    * Technology 1
-        * Description
-        * Justification
-    * Technology 2
-        * Description
+    * Socket.io
+        * Socket.io is a library that enables real-time two-way interaction that runs on Node.js. It contains the basis for a server and client implementations that expose APIs that can be used like websockets. It's underlying technology is indeed websockets.
+        * This will allow two players on separate computers, or on separate sessions on the same computer, to play against each other. It will allow multiple players and spectators to chat with each other. It also allows the possibility for multiple channels, so this could eventually be used to allow for multiple games being played simultaneously.
+    * Google Firebase: Firestore
+        * Firestore is a NoSQL server that runs in Google's cloud services. It integrates with Node.js, allowing it to be used for 
         * Justification
     ...
 Implementation Timeline

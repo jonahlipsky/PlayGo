@@ -35,10 +35,10 @@
     * Google Firebase: Firestore
         * Firestore is a NoSQL server that runs in Google's cloud services. It integrates with Node.js, allowing it to be used to hose the Socket.io server.
         * In order to create an interactive two player game, and also to create the ability to chat in real time, a server needs to be employed for websocket functionality. Google Firestore allows a free option which allows more than enough bandwidth, storage, and download capability for the light-weight footprint of this game. 
-   * Vanilla Javascript for basic game implementation
-   * HTML for game structure
+   * Javascript for basic game implementation and logic
+   * HTML Canvas for rendering of pieces and the game board
    * Webpack for bundling multiple javascript files
-
+   
 ## Implementation Timeline
   * By end of Wednesday, February 6th: 
     * Complete game board and rule set. 
@@ -47,4 +47,10 @@
   * By end of Thursday, February 7th:
     * Complete click based gameplay feature
     * Complete "Pass turn" button and automatic scoring
-    
+  * By end of Friday, February 8th: 
+    * Deep into work on two-sided game feature with Google Firestore and Socket.io implemented
+  * By end of Saturday, February 9th:
+    * Complete two-sided game feature
+    * Begun work on chat room feature
+  * By end of Sunday, February 10th:
+    * Complete chat room feature

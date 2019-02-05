@@ -19,7 +19,7 @@
          * Captured territory is scored for the player who surrounds those crosses.
          * Captured stones subtracted from their owners final score. 
          * Stones contained within another persons territory, if they do not contain an 'eye', are considered taken. 
-         * Rules for acknowledgeing 'seki' or 'mutual life' where neither person can be said to be encircling the others stones in a certain board position.
+         * Number adjustor elements are displayed that allow players to adjust final score, allowing for adjustment for 'seki' (see Bonus feature 1). 
      * Feature 4: Two-sided turn based game
        * Users who come to the website can enter their name. Once two individuals have 'logged in', the game begins.
        * Users will be able to make moves and their moves will be represented on the other computer in real time.
@@ -54,3 +54,8 @@
     * Begun work on chat room feature
   * By end of Sunday, February 10th:
     * Complete chat room feature
+    * Implement Seki automatic scoring
+    
+## Bonus Features
+  * Bonus 1: Implement Seki automatic scoring. 'Seki', or 'mutual life', is when neither player is said to have taken the other's pieces because either player making a move to surround the other's pieces would result in their own peices being taken. It is a sort of a draw in a local board position and affords no points to either player. 
+  * Bonus 2: 

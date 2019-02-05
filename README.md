@@ -6,7 +6,9 @@
     * High level overview: The game Go uses relatively simple rules and a grid board which, together, create more than 10^170  [legal board positions](https://tromp.github.io/go/legal.html). It's an ancient strategy game with incredible layers of complexity. 
     
 * Functionality and MVP Features
-    * Choose carefully
+    * Feature 1: Clickable one-sided game board and rule set
+      * The full implementation of the game rules allow for game pieces to be captured and illegal moves to be refused with an error message. 
+         * Illegal moves include: playing in a position that would result in being immediately taken and repeating a board position less than 1 full turn (both players playing) after it was previously seen.
     * Be especially detailed
 * Architecture and Technologies
     * Technology 1

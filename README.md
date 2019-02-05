@@ -37,10 +37,12 @@
         * In order to create an interactive two player game, and also to create the ability to chat in real time, a server needs to be employed for websocket functionality. Google Firestore allows a free option which allows more than enough bandwidth, storage, and download capability for the light-weight footprint of this game. 
 
 ## Implementation Timeline
-   * Day 1: 
+   * By end of Wednesday, February 6th: 
       * Complete game board and rule set. 
-      * Be able to execute moves via the console and have those persist to the local game object.
-      * Illegal moves rejected and captured pieces removed automatically from the board, incrementing the score accordingly.
+      * Basic visualization of a grid complete.
+      * Partially completed implementation of feature 2, click based gameplay. 
+    * By end of Thursday, February 7th:
+      * Complete click based gameplay feature
+      * Complete "Pass turn" button and automatic scoring
 
-    
-    
+      

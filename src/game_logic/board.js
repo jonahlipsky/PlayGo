@@ -1,17 +1,32 @@
 import crossNode from './cross_node';
 import { hasNullStone, isTaken } from '../utilities/board_utils';
 //import a final liberty method
+const TAKEN = "TAKEN";
 
 
 class Board{
   constructor(nCrosses){
     this.grid = this.gridSetup(nCrosses);
+    this.nCrosses = nCrosses;
+    this.render();
   }
 
   makeMove(color, coords){
-    if(this.validMove(color, coords)){
-      this.grid[coords[0]][coords[1]].assignStone(color);
-      //put a taken check here
+    let targetNode = this.grid[coords[0]][coords[1]];
+    switch(this.validMove(color,coords)){
+      case true: 
+        targetNode.assignStone(color);
+      case false:
+        console.log("invalid move");
+      case TAKEN:
+        targetNode.assignStone(color);
+        targetNode.connectedNodes.forEach( node => {
+          if(node.stone && node.stone.color != color && node.groupHasNoLiberties(coords)){
+            node.removeStone();
+          }
+        });
+      default:
+        return null;
     }
   }
 
@@ -24,7 +39,7 @@ class Board{
     } else if (crossNode.connectedNodes.some(hasNullStone)){
       return true;
     } else if (crossNode.connectedNodes.some(isTaken(color, coords))){
-      return true;
+      return TAKEN;
     }
   }
 
@@ -81,6 +96,45 @@ class Board{
     });
 
     return connectedNodes;
+  }
+
+  moveEvent(e){
+    
+    let x = e.clientX - e.currentTarget.offsetLeft;
+
+    //use these to lock in the exact location. remove borders while getting formula exact
+    console.log(`e.clientY ${e.clientY}`);
+    console.log(`e.currentTarget.offsetTop ${e.currentTarget.offsetTop}`);
+    console.log(`e.currentTarget.offsetHeight ${e.currentTarget.offsetHeight}`);
+  }
+
+  render(){
+    let gameElement = document.getElementById("game-element");
+    let ctx = gameElement.getContext('2d');
+    let boardSize = 40 * this.nCrosses;
+    let p = 0; //outer padding
+    let ip = 20;
+    ctx.translate(0, 760);
+    ctx.scale(1, -1);
+    ctx.fillStyle = "#D5B077"; 
+    ctx.fillRect(0,0,boardSize,boardSize); 
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = 'black';
+
+    for (let y = ip; y <= boardSize; y += 40) {
+      ctx.moveTo(p + ip, p + y);
+      ctx.lineTo(boardSize - ip , p + y);
+      ctx.stroke();        
+    }
+
+    for (let x = ip; x <= boardSize; x += 40) {      
+      ctx.moveTo(p + x, p + ip);
+      ctx.lineTo(p + x, boardSize - ip );
+      ctx.stroke();        
+    }
+
+    gameElement.addEventListener('click', this.moveEvent);
+
   }
 }
 

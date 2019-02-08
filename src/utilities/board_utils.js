@@ -43,8 +43,53 @@ export const onlyOneLibertyInGroup = node => {
   return true;
 };
 
-export const moveWouldTakeEnemyGroup = node => {
+export const noLibertiesInGroup = node => {
+  let queue = [node];
+  let previouslyChecked = [];
+  let checkNode;
+  while (queue.length){
+    console.log(queue)
+    debugger
+    checkNode = queue.splice(0,1)[0];
+    if(checkNode.stone.liberties){
+      return false;
+    } else {
+      previouslyChecked.push(checkNode);
+      
+      checkNode.sameColorNodes.forEach((sameColorNode) => {
+        if(!previouslyChecked.includes(sameColorNode)){
+          queue.push(sameColorNode);
+        }
+      });
+    }
 
+  }
+  return true;
+
+};
+
+
+
+export const gatherEnemyGroups = (targetNode) => {
+  let adjacentEnemyNodes = targetNode.oppositeColorNodes;
+  let enemyGroups = [];
+  adjacentEnemyNodes.forEach(enemyNode => {
+    let group;
+    if(!enemyGroups.length || enemyGroups.every(array => {
+      return !array.includes(enemyNode);
+    })){
+      group = [enemyNode];
+      let queue = enemyNode.sameColorNodes;
+      while(queue.length){
+        let nextNode = queue.splice(0,1)[0];
+        if(!group.includes(nextNode)){
+          group.push(nextNode);
+        }
+      }
+    }
+    enemyGroups.push(group);
+  });
+  return enemyGroups;
 };
 
 

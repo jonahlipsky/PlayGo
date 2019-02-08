@@ -1,8 +1,6 @@
 import crossNode from './cross_node';
-import { hasNullStone, isTaken, onlyOneLibertyInGroup, moveWouldTakeEnemyGroup } from '../utilities/board_utils';
+import { hasNullStone, isTaken, onlyOneLibertyInGroup, gatherEnemyGroups } from '../utilities/board_utils';
 //import a final liberty method
-const TAKEN = "TAKEN";
-
 
 class Board{
   constructor(nCrosses){
@@ -15,6 +13,8 @@ class Board{
     this.ctx.scale(1, -1);
     this.render();
     this.gameElement.addEventListener('click', this.moveEvent.bind(this));
+    this.whitePoints = 0;
+    this.blackPoints = 0;
   }
 
   makeMove(color, coords){
@@ -22,19 +22,11 @@ class Board{
     switch(this.validMove(color,coords)){
       case true: 
         targetNode.assignStone(color);
+        this.checkAdjacentEnemyGroups(targetNode);
         return true;
       case false:
         console.log("invalid move");
         return false;
-      // case TAKEN:
-      //   debugger
-      //   targetNode.assignStone(color);
-      //   targetNode.connectedNodes.forEach( node => {
-      //     if(node.stone && node.stone.color != color && node.groupHasNoLiberties(coords)){
-      //       node.removeStone();
-      //     }
-      //   });
-      //   return true
       default:
         console.log('error: did not hit any options in makeMove');
         return false;
@@ -49,15 +41,42 @@ class Board{
     if(crossNode.stone){
       return false;
     } else if (this.checkIfMoveWouldTakeEnemy(crossNode, color)) {
+      console.log('move would take enemy');
       return true;
     } else if (connectedNodes.some(hasNullStone)){
       return true;
     } else if (connectedNodes.every(this.checkIfWouldBeTaken(color, coords))){
       return false;
     } else {
-      console.log("didnt hit any options in validMove");
+      return true;
     }
   }
+
+  checkAdjacentEnemyGroups(targetNode){
+    let enemyGroups = gatherEnemyGroups(targetNode);
+    const reducer = (accumulator, node) => accumulator + node.stone.liberties;
+    let points = 0;
+    enemyGroups.forEach(group => {
+      if(!group.reduce(reducer, 0)){
+        points += group.length;
+        group.forEach(node => {
+          node.stone = null;
+          node.updateSelf();
+        });
+      }
+    });
+
+    this.awardPoints(points);
+  }
+
+  awardPoints(points){
+    if(this.color === "white"){
+      this.whitePoints += points;
+    } else {
+      this.blackPoints += points;
+    }
+  }
+
 
   checkIfMoveWouldTakeEnemy(node, makingMoveColor){
     let moveWouldTakeEnemy = false;
@@ -74,13 +93,9 @@ class Board{
   checkIfWouldBeTaken(makingMoveColor){
     return node => {
       if(node.stone.color != makingMoveColor){
-        //if there's a stone and the color is opposite, return true
         return true;
       } else if(onlyOneLibertyInGroup(node)){
         return true;
-        //in the case where an adjacent stone is the same color
-        //if that stone has one liberty but all connected stones have none, return true
-
       }
     };
   }
@@ -121,6 +136,7 @@ class Board{
     let left =  [i - 1, j];
 
     let connectedNodes = [up, right, down, left];
+
     if (up[1] === nCrosses){
       delete connectedNodes[0];
     }
@@ -141,7 +157,6 @@ class Board{
   }
 
   moveEvent(e){
-    
     let x = e.offsetX - 20;
     let y = 740 - e.offsetY;
     let color = this.color;
@@ -180,7 +195,6 @@ class Board{
 
     let dotCoords = [3*40 + ip, 9*40 + ip, 15*40 + ip];
 
-
     this.ctx.fillStyle = 'black';
     for (let i = 0; i < dotCoords.length; i++) {
       for (let j = 0; j < dotCoords.length; j++) {
@@ -189,8 +203,6 @@ class Board{
         this.ctx.fill();
       }
     }
-
-
 
     for (let x = 0; x < this.nCrosses; x++) {
       for (let y = 0; y < this.nCrosses; y++) {

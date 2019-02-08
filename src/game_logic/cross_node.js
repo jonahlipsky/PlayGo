@@ -10,11 +10,12 @@ class crossNode{
   }
 
   groupHasNoLiberties(coords){
-    let previouslyChecked =[];
+    let previouslyChecked = [];
     let groupQueue = [this];
     let node;
     let targetNode = this.board.grid[coords[0]][coords[1]];
     while(groupQueue.length){
+      debugger
       node = groupQueue.splice(0,1)[0];
       if(node.stone.liberties > 1){
         return false;
@@ -27,6 +28,7 @@ class crossNode{
         }
       });
     }
+    debugger
     return true;
   }
 

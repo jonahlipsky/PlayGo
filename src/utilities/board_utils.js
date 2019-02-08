@@ -5,6 +5,7 @@ export const hasNullStone = (node) => {
 
 export const isTaken = (color, coords) => {
   return node => {
+    // debugger
     if(node.stone && node.stone.color != color){
       return node.groupHasNoLiberties(coords);
     } else {

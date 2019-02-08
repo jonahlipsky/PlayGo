@@ -8,7 +8,13 @@ class Board{
   constructor(nCrosses){
     this.grid = this.gridSetup(nCrosses);
     this.nCrosses = nCrosses;
+    this.color = 'black';
+    this.gameElement = document.getElementById("game-element");
+    this.ctx = this.gameElement.getContext('2d');
+    this.ctx.translate(0, 760);
+    this.ctx.scale(1, -1);
     this.render();
+    this.gameElement.addEventListener('click', this.moveEvent.bind(this));
   }
 
   makeMove(color, coords){
@@ -16,17 +22,22 @@ class Board{
     switch(this.validMove(color,coords)){
       case true: 
         targetNode.assignStone(color);
+        return true;
       case false:
         console.log("invalid move");
+        return false;
       case TAKEN:
+        debugger
         targetNode.assignStone(color);
         targetNode.connectedNodes.forEach( node => {
           if(node.stone && node.stone.color != color && node.groupHasNoLiberties(coords)){
             node.removeStone();
           }
         });
+        return true
       default:
-        return null;
+        console.log('error');
+        return false;
     }
   }
 
@@ -36,10 +47,10 @@ class Board{
     let crossNode = this.grid[coords[0]][coords[1]];
     if(crossNode.stone){
       return false;
-    } else if (crossNode.connectedNodes.some(hasNullStone)){
-      return true;
     } else if (crossNode.connectedNodes.some(isTaken(color, coords))){
       return TAKEN;
+    } else if (crossNode.connectedNodes.some(hasNullStone)){
+      return true;
     }
   }
 
@@ -100,41 +111,68 @@ class Board{
 
   moveEvent(e){
     
-    let x = e.clientX - e.currentTarget.offsetLeft;
-
-    //use these to lock in the exact location. remove borders while getting formula exact
-    console.log(`e.clientY ${e.clientY}`);
-    console.log(`e.currentTarget.offsetTop ${e.currentTarget.offsetTop}`);
-    console.log(`e.currentTarget.offsetHeight ${e.currentTarget.offsetHeight}`);
+    let x = e.offsetX - 20;
+    let y = 740 - e.offsetY;
+    let color = this.color;
+    let xCoord = Math.floor((x + 20) / 40);
+    let yCoord = Math.floor((y + 20) / 40);
+    let coords = [xCoord, yCoord];
+    let moveMade = this.makeMove(color,coords);
+    this.render();
+    if(moveMade){
+      this.color = this.color === 'black' ? 'white' : 'black';
+    }
+    return;
   }
 
   render(){
-    let gameElement = document.getElementById("game-element");
-    let ctx = gameElement.getContext('2d');
+
     let boardSize = 40 * this.nCrosses;
     let p = 0; //outer padding
     let ip = 20;
-    ctx.translate(0, 760);
-    ctx.scale(1, -1);
-    ctx.fillStyle = "#D5B077"; 
-    ctx.fillRect(0,0,boardSize,boardSize); 
-    ctx.lineWidth = 1;
-    ctx.strokeStyle = 'black';
+    this.ctx.fillStyle = "#D5B077"; 
+    this.ctx.fillRect(0,0,boardSize,boardSize); 
+    this.ctx.lineWidth = 1;
+    this.ctx.strokeStyle = 'black';
 
     for (let y = ip; y <= boardSize; y += 40) {
-      ctx.moveTo(p + ip, p + y);
-      ctx.lineTo(boardSize - ip , p + y);
-      ctx.stroke();        
+      this.ctx.moveTo(p + ip, p + y);
+      this.ctx.lineTo(boardSize - ip , p + y);
+      this.ctx.stroke();        
     }
 
     for (let x = ip; x <= boardSize; x += 40) {      
-      ctx.moveTo(p + x, p + ip);
-      ctx.lineTo(p + x, boardSize - ip );
-      ctx.stroke();        
+      this.ctx.moveTo(p + x, p + ip);
+      this.ctx.lineTo(p + x, boardSize - ip );
+      this.ctx.stroke();        
     }
 
-    gameElement.addEventListener('click', this.moveEvent);
+    let dotCoords = [3*40 + ip, 9*40 + ip, 15*40 + ip];
 
+
+    this.ctx.fillStyle = 'black';
+    for (let i = 0; i < dotCoords.length; i++) {
+      for (let j = 0; j < dotCoords.length; j++) {
+        this.ctx.beginPath();
+        this.ctx.arc(dotCoords[i], dotCoords[j], 5, 0, 2*Math.PI, true);
+        this.ctx.fill();
+      }
+    }
+
+
+
+    for (let x = 0; x < this.nCrosses; x++) {
+      for (let y = 0; y < this.nCrosses; y++) {
+        let node = this.grid[x][y];
+        if(node.stone){
+          this.ctx.fillStyle = node.stone.color;
+          this.ctx.beginPath();
+          this.ctx.arc(node.coords[0] * 40 + ip, node.coords[1] * 40 + ip, 17, 0, 2*Math.PI, true);
+          this.ctx.fill();
+        }
+      }
+    }
+    console.log(this.grid);
   }
 }
 

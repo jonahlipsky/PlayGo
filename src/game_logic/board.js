@@ -1,5 +1,5 @@
 import crossNode from './cross_node';
-import { hasNullStone, isTaken } from '../utilities/board_utils';
+import { hasNullStone, isTaken, onlyOneLibertyInGroup, moveWouldTakeEnemyGroup } from '../utilities/board_utils';
 //import a final liberty method
 const TAKEN = "TAKEN";
 
@@ -26,17 +26,17 @@ class Board{
       case false:
         console.log("invalid move");
         return false;
-      case TAKEN:
-        debugger
-        targetNode.assignStone(color);
-        targetNode.connectedNodes.forEach( node => {
-          if(node.stone && node.stone.color != color && node.groupHasNoLiberties(coords)){
-            node.removeStone();
-          }
-        });
-        return true
+      // case TAKEN:
+      //   debugger
+      //   targetNode.assignStone(color);
+      //   targetNode.connectedNodes.forEach( node => {
+      //     if(node.stone && node.stone.color != color && node.groupHasNoLiberties(coords)){
+      //       node.removeStone();
+      //     }
+      //   });
+      //   return true
       default:
-        console.log('error');
+        console.log('error: did not hit any options in makeMove');
         return false;
     }
   }
@@ -45,13 +45,44 @@ class Board{
     //eventually add an option for ko as the first else if
     //add a case for not allowing suicidal moves
     let crossNode = this.grid[coords[0]][coords[1]];
+    let connectedNodes = crossNode.connectedNodes;
     if(crossNode.stone){
       return false;
-    } else if (crossNode.connectedNodes.some(isTaken(color, coords))){
-      return TAKEN;
-    } else if (crossNode.connectedNodes.some(hasNullStone)){
+    } else if (this.checkIfMoveWouldTakeEnemy(crossNode, color)) {
       return true;
+    } else if (connectedNodes.some(hasNullStone)){
+      return true;
+    } else if (connectedNodes.every(this.checkIfWouldBeTaken(color, coords))){
+      return false;
+    } else {
+      console.log("didnt hit any options in validMove");
     }
+  }
+
+  checkIfMoveWouldTakeEnemy(node, makingMoveColor){
+    let moveWouldTakeEnemy = false;
+    node.connectedNodes.forEach((connectedNode) => {
+      if(connectedNode.stone && connectedNode.stone.color != makingMoveColor && 
+        onlyOneLibertyInGroup(connectedNode)){
+        console.log('would take enemy');
+        moveWouldTakeEnemy = true;
+      }
+    });
+    return moveWouldTakeEnemy;
+  }
+
+  checkIfWouldBeTaken(makingMoveColor){
+    return node => {
+      if(node.stone.color != makingMoveColor){
+        //if there's a stone and the color is opposite, return true
+        return true;
+      } else if(onlyOneLibertyInGroup(node)){
+        return true;
+        //in the case where an adjacent stone is the same color
+        //if that stone has one liberty but all connected stones have none, return true
+
+      }
+    };
   }
 
   gridSetup(nCrosses){

@@ -5,6 +5,7 @@ class crossNode{
     this.coords = coords;
     this.connectedNodes = [];
     this.sameColorNodes = [];
+    this.oppositeColorNodes = [];
     this.stone = null;
     this.board = board;
   }
@@ -49,7 +50,7 @@ class crossNode{
     if(!this.stone){
       this.stone = new stone(color);
       this.connectedNodes.forEach(node => {
-        this.addSameColorNode(node);
+        this.addAdjacentColorNodes(node);
       });
       this.updateLiberties();
       this.updateAdjacentLiberties();
@@ -76,11 +77,15 @@ class crossNode{
     }
   }
 
-  addSameColorNode(node){
+  addAdjacentColorNodes(node){
     if(node.stone && node.stone.color === this.stone.color && 
       !this.sameColorNodes.includes(node)){
-      this.sameColorNodes.push(node);
-      node.sameColorNodes.push(this);
+        this.sameColorNodes.push(node);
+        node.sameColorNodes.push(this);
+    } else if (node.stone && node.stone.color != this.stone.color &&
+      !this.oppositeColorNodes.includes(node)){
+        this.oppositeColorNodes.push(node);
+        node.oppositeColorNodes.push(this);
     }
   }
 

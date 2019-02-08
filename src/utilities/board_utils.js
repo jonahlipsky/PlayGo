@@ -48,8 +48,6 @@ export const noLibertiesInGroup = node => {
   let previouslyChecked = [];
   let checkNode;
   while (queue.length){
-    console.log(queue)
-    debugger
     checkNode = queue.splice(0,1)[0];
     if(checkNode.stone.liberties){
       return false;
@@ -92,7 +90,32 @@ export const gatherEnemyGroups = (targetNode) => {
   return enemyGroups;
 };
 
+export const connectedNodesSetup = (i, j, nCrosses) => {
+  let up =    [i, j + 1];
+  let right = [i + 1, j];
+  let down =  [i, j - 1];
+  let left =  [i - 1, j];
 
+  let connectedNodes = [up, right, down, left];
+
+  if (up[1] === nCrosses){
+    delete connectedNodes[0];
+  }
+  if (right[0] === nCrosses){
+    delete connectedNodes[1];
+  }
+  if(down[1] < 0){
+    delete connectedNodes[2];
+  }
+  if(left[0] < 0){
+    delete connectedNodes[3];
+  }
+  connectedNodes = connectedNodes.filter((node) => {
+    return !!node;
+  });
+
+  return connectedNodes;
+}
 
 
 //write a final liberty method

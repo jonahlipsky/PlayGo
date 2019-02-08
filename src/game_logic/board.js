@@ -1,5 +1,6 @@
 import crossNode from './cross_node';
-import { hasNullStone, isTaken, onlyOneLibertyInGroup, gatherEnemyGroups } from '../utilities/board_utils';
+import { hasNullStone, isTaken, onlyOneLibertyInGroup, 
+  gatherEnemyGroups, connectedNodesSetup } from '../utilities/board_utils';
 //import a final liberty method
 
 class Board{
@@ -41,7 +42,6 @@ class Board{
     if(crossNode.stone){
       return false;
     } else if (this.checkIfMoveWouldTakeEnemy(crossNode, color)) {
-      console.log('move would take enemy');
       return true;
     } else if (connectedNodes.some(hasNullStone)){
       return true;
@@ -83,7 +83,6 @@ class Board{
     node.connectedNodes.forEach((connectedNode) => {
       if(connectedNode.stone && connectedNode.stone.color != makingMoveColor && 
         onlyOneLibertyInGroup(connectedNode)){
-        console.log('would take enemy');
         moveWouldTakeEnemy = true;
       }
     });
@@ -106,7 +105,7 @@ class Board{
       let column = {};
       for (let j = 0; j < nCrosses; j++) {
         column[j] = new crossNode([i, j], this); // [x,y]
-        let connectedNodes = this.connectedNodesSetup(i, j, nCrosses);
+        let connectedNodes = connectedNodesSetup(i, j, nCrosses);
         column[j].connectedNodes = connectedNodes;
       }      
       grid[i] = column;
@@ -129,32 +128,7 @@ class Board{
     }
   }
 
-  connectedNodesSetup(i, j, nCrosses, grid){
-    let up =    [i, j + 1];
-    let right = [i + 1, j];
-    let down =  [i, j - 1];
-    let left =  [i - 1, j];
-
-    let connectedNodes = [up, right, down, left];
-
-    if (up[1] === nCrosses){
-      delete connectedNodes[0];
-    }
-    if (right[0] === nCrosses){
-      delete connectedNodes[1];
-    }
-    if(down[1] < 0){
-      delete connectedNodes[2];
-    }
-    if(left[0] < 0){
-      delete connectedNodes[3];
-    }
-    connectedNodes = connectedNodes.filter((node) => {
-      return !!node;
-    });
-
-    return connectedNodes;
-  }
+  
 
   moveEvent(e){
     let x = e.offsetX - 20;
@@ -215,7 +189,6 @@ class Board{
         }
       }
     }
-    console.log(this.grid);
   }
 }
 

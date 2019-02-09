@@ -80,8 +80,12 @@ function loadBoardPosition(board, gameName){
                     .orderBy('timestamp', 'desc')
                     .limit(1);
   query.onSnapshot(function(snapshot){
-    // let newBoard = snapshot.docChanges()[0].doc.data();
+    // let docChanges = snapshot.docChanges()[0].doc.data();
     // let previousBoardKoCheck = snapshot.docChanges()[1].doc.data();
+    //for some reason when I set it to limit(2), sometimes it returns one. Is that because
+    //there is only one 'change'?
+    //I think that this could certainly be it... In other words, it fires, the query, 
+    //but then it gets only the 'changes', which would only ever be one board.
 
     snapshot.docChanges().forEach(function(change){
       let data = change.doc.data();

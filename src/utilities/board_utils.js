@@ -124,7 +124,12 @@ export const equivalentBoardPosition = (previousGrid, color, coords, currentBoar
   //and exactly one adjacent enemy piece abuts and has exactly one liberty left
   //and has no connected same color nodes
   //that's ko and it's illegal      
-  debugger
+
+
+  //the problem here is that there might be several adjacent opposite color nodes. Only one of them can have one liberty. 
+  //Another problem is that the query is sometimes returning one previous board and sometimes two, when I set it to two.
+  //Until I can work that out, I can't effectively implement loading of the previous board positions.
+
   if(!previousGrid){
     return false;
   }
@@ -137,7 +142,6 @@ export const equivalentBoardPosition = (previousGrid, color, coords, currentBoar
       return true;
     }
   });
-  debugger
   if(previousStoneValue === color 
       && oppositeColorNodes.length === 1
       && !oppositeColorNodes[0].sameColorNodes.length

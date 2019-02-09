@@ -43,12 +43,12 @@ class Board{
     let connectedNodes = crossNode.connectedNodes;
     if(crossNode.stone){
       return false;
-    } else if (equivalentBoardPosition(
-      this.previousBoardKoCheck, color, coords, this.grid
-    )) {
-      debugger;
-      console.log('Illegal move: Ko');
-      return false;
+    // } else if (equivalentBoardPosition(      //Ko is a little harder than that
+    //   this.previousBoardKoCheck, color, coords, this.grid
+    // )) {
+    //   debugger;
+    //   console.log('Illegal move: Ko');
+    //   return false;
     } else if (this.checkIfMoveWouldTakeEnemy(crossNode, color)) {
       return true;
     } else if (connectedNodes.some(hasNullStone)){

@@ -1,5 +1,6 @@
 import Stone from './game_logic/stone';
 import Board from './game_logic/board';
+require("firebase/firestore");
 
 
 document.addEventListener("DOMContentLoaded", () => {

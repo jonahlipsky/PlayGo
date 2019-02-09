@@ -8,14 +8,15 @@ class Board{
     this.grid = this.gridSetup(nCrosses);
     this.nCrosses = nCrosses;
     this.color = 'black';
+
     this.gameElement = document.getElementById("game-element");
     this.ctx = this.gameElement.getContext('2d');
     this.ctx.translate(0, 760);
     this.ctx.scale(1, -1);
     this.render();
-    this.gameElement.addEventListener('click', this.moveEvent.bind(this));
     this.whitePoints = 0;
     this.blackPoints = 0;
+    this.moveEvent = this.moveEvent.bind(this);
   }
 
   makeMove(color, coords){
@@ -131,6 +132,7 @@ class Board{
   
 
   moveEvent(e){
+    debugger
     let x = e.offsetX - 20;
     let y = 740 - e.offsetY;
     let color = this.color;
@@ -141,8 +143,10 @@ class Board{
     this.render();
     if(moveMade){
       this.color = this.color === 'black' ? 'white' : 'black';
+      return true;
+    } else {
+      return false;
     }
-    return;
   }
 
   render(){

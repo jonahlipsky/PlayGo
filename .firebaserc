@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "default": "js-go-game",
+    "staging": "js-go-game"
+  }
+}

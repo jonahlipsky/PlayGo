@@ -6,7 +6,6 @@ body{
   width: 900px;
   left: 50%;
   margin-left: -450px;
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,4 +15,31 @@ body{
   position: relative;
   /* width: 500px;
   height: 500px; */
+}
+
+.header-element{
+  position: absolute;
+  top: 0;
+  width: 400px;
+  left: 50%;
+  margin-left: -200px;
+  height: 70px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* #game-selection-form{
+
+} */
+
+#title{
+  justify-content: center;
+  font-size: 20pt;
+  font-weight: 700;
+}
+
+.hidden{
+  display: none;
 }

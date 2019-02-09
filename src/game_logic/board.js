@@ -1,6 +1,6 @@
 import crossNode from './cross_node';
 import { hasNullStone, isTaken, onlyOneLibertyInGroup, 
-  gatherEnemyGroups, connectedNodesSetup } from '../utilities/board_utils';
+  gatherEnemyGroups, connectedNodesSetup, equivalentBoardPosition } from '../utilities/board_utils';
 //import a final liberty method
 
 class Board{
@@ -16,6 +16,7 @@ class Board{
     this.render();
     this.whitePoints = 0;
     this.blackPoints = 0;
+    this.previousBoardKoCheck = null;
     this.moveEvent = this.moveEvent.bind(this);
   }
 
@@ -41,6 +42,12 @@ class Board{
     let crossNode = this.grid[coords[0]][coords[1]];
     let connectedNodes = crossNode.connectedNodes;
     if(crossNode.stone){
+      return false;
+    } else if (equivalentBoardPosition(
+      this.previousBoardKoCheck, color, coords, this.grid
+    )) {
+      debugger;
+      console.log('Illegal move: Ko');
       return false;
     } else if (this.checkIfMoveWouldTakeEnemy(crossNode, color)) {
       return true;
@@ -132,7 +139,6 @@ class Board{
   
 
   moveEvent(e){
-    debugger
     let x = e.offsetX - 20;
     let y = 740 - e.offsetY;
     let color = this.color;
@@ -143,6 +149,7 @@ class Board{
     this.render();
     if(moveMade){
       this.color = this.color === 'black' ? 'white' : 'black';
+      console.log(`newColor: ${this.color}`);
       return true;
     } else {
       return false;

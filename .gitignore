@@ -3,3 +3,4 @@ node_modules
 dist/bundle.js
 dist/bundle.js.*
 js-go-game-231200-5b0b44c39bd9.json
+firebase-debug.log

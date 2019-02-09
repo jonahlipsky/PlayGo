@@ -118,4 +118,37 @@ export const connectedNodesSetup = (i, j, nCrosses) => {
 }
 
 
+export const equivalentBoardPosition = (previousGrid, color, coords, currentBoardGrid) => {
+
+  //if there was a stone of the current color at the target coordinates
+  //and exactly one adjacent enemy piece abuts and has exactly one liberty left
+  //and has no connected same color nodes
+  //that's ko and it's illegal      
+  debugger
+  if(!previousGrid){
+    return false;
+  }
+  let x = coords[0];
+  let y = coords[1];
+  let previousStoneValue = previousGrid[x][y];
+  let targetNode = currentBoardGrid[x][y];
+  let oppositeColorNodes = targetNode.connectedNodes.filter( node => {
+    if(node.stone && node.stone.color != color){
+      return true;
+    }
+  });
+  debugger
+  if(previousStoneValue === color 
+      && oppositeColorNodes.length === 1
+      && !oppositeColorNodes[0].sameColorNodes.length
+      && oppositeColorNodes[0].stone.liberties === 1
+    ){
+    return true;
+  }
+  return false;
+};
+
+
+
+
 //write a final liberty method

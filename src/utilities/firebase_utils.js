@@ -16,6 +16,8 @@ export function submitBoardPosition(board, gameName){
   let object = {
     gameBoard: newGrid,
     currentTurnColor: board.color,
+    blackPoints: board.blackPoints,
+    whitePoints: board.whitePoints,
     timestamp: firebase.firestore.FieldValue.serverTimestamp()
   };
   return firebase.firestore().collection('games').doc(`${gameName}`).collection('boards').add(object)
@@ -40,7 +42,7 @@ export function loadBoardPosition(board, gameName){
     snapshot.docChanges().forEach(function(change){
       let data = change.doc.data();
       console.log(`New color received: ${data.currentTurnColor}`);
-      restoreBoardPosition(data.gameBoard, board, data.currentTurnColor);
+      restoreBoardPosition(data, board);
     });
   });                    
 }
@@ -63,7 +65,10 @@ export function applyNewBoardPosition(newBoard, oldBoard){
   }
 }
 
-export function restoreBoardPosition(newBoard, oldBoard, color){
-  oldBoard.color = color;
-  applyNewBoardPosition(newBoard, oldBoard);
+export function restoreBoardPosition(data, oldBoard){
+  debugger
+  oldBoard.color = data.color;
+  oldBoard.whitePoints = data.whitePoints;
+  oldBoard.blackPoints = data.blackPoints;
+  applyNewBoardPosition(data.gameBoard, oldBoard);
 }

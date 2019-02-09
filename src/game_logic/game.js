@@ -3,24 +3,28 @@ import { submitBoardPosition, applyNewBoardPosition, loadBoardPosition } from '.
 import Board from './board';
 
 export function Game(){
-  const board = new Board(19);
-  board.render();
+
 
   let form = document.getElementById('game-selection-form');
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     let gameName = document.getElementById('game-name-input');
+    let username = document.getElementById('username');
+
     if(gameName.value.length){
-      initializeGame(gameName.value, board);
+      initializeGame(gameName.value, username);
       let title = document.getElementById('title');
+      let userPoints = document.getElementById('user-and-points-display');
       title.innerHTML = gameName.value;
       form.classList.add('hidden');
       title.classList.remove('hidden');
+      userPoints.classList.remove('hidden');
     }
   });
 }
 
-function initializeGame(nameOfGame, board){
+function initializeGame(nameOfGame, username){
+  //username currently is not being used
 
   var config = {
     apiKey: "AIzaSyB2XrtPKjoI9FEWJ5I4pWiFVAjV1j8S4AE",
@@ -35,6 +39,13 @@ function initializeGame(nameOfGame, board){
   const db = firebase.firestore();
 
   let gameName = nameOfGame;
+  const board = new Board(19);
+  board.render();
+  let white = document.getElementById('white');
+  let black = document.getElementById('black');
+  black.innerHTML = `Black has captured ${board.blackPoints} stones`;
+  white.innerHTML = `White has captured ${board.whitePoints} stones`;
+
  
   db.collection('games').doc(`${gameName}`).collection('boards')
     .orderBy('timestamp', 'desc')

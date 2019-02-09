@@ -1,6 +1,11 @@
 body{
+  background-color: lightblue;
+}
+
+.game-container{
   position: fixed;
   top: 0;
+  left: 0;
   /* bottom: 0; */
   height: 900px;
   width: 900px;
@@ -13,26 +18,38 @@ body{
 
 #game-element{
   position: relative;
-  /* width: 500px;
-  height: 500px; */
+
 }
 
 .header-element{
-  position: absolute;
+  position: fixed;
   top: 0;
-  width: 400px;
+  width: 900px;
   left: 50%;
-  margin-left: -200px;
+  margin-left: -450px;
   height: 70px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 }
 
-/* #game-selection-form{
+input{
+  margin: 0 15px 0 5px;
+}
 
-} */
+.user-and-points-display{
+  position: fixed; 
+  bottom: 0;
+  width: 900px;
+  left: 50%;
+  margin-left: -450px;
+  height: 70px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
 
 #title{
   justify-content: center;
@@ -43,3 +60,4 @@ body{
 .hidden{
   display: none;
 }
+

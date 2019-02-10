@@ -149,7 +149,6 @@ class Board{
     this.render();
     if(moveMade){
       this.color = this.color === 'black' ? 'white' : 'black';
-      console.log(`newColor: ${this.color}`);
       return true;
     } else {
       return false;

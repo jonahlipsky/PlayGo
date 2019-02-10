@@ -41,23 +41,6 @@ class crossNode{
     this.oppositeColorNodes = oppositeColor;
   }
 
-  // removeStone(){ 
-  //   //this operates in a depth first manner traversing related same-color nodes
-  //   // and reassigning their stones to null
-  //   debugger
-  //   if(this.stone){
-  //     this.stone = null;
-  //     this.sameColorNodes.forEach((node) => {
-  //       debugger;
-  //       let thisIndex = node.sameColorNodes.indexOf(this);
-  //       node.sameColorNodes.splice(thisIndex, 1);
-  //       node.removeStone();
-  //     });
-  //     this.sameColorNodes = [];
-  //   }
-  // }
-
-
 }
 
 export default crossNode;

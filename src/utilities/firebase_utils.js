@@ -15,7 +15,7 @@ export function submitBoardPosition(board, gameName){
   board.previousBoardKoCheck = newGrid;
   let object = {
     gameBoard: newGrid,
-    currentTurnColor: board.color,
+    color: board.color,
     blackPoints: board.blackPoints,
     whitePoints: board.whitePoints,
     timestamp: firebase.firestore.FieldValue.serverTimestamp()
@@ -40,9 +40,10 @@ export function loadBoardPosition(board, gameName){
     //but then it gets only the 'changes', which would only ever be one board.
 
     snapshot.docChanges().forEach(function(change){
-      let data = change.doc.data();
-      console.log(`New color received: ${data.currentTurnColor}`);
-      restoreBoardPosition(data, board);
+      if(change.type === "added"){
+        let data = change.doc.data();
+        restoreBoardPosition(data, board);
+      }
     });
   });                    
 }
@@ -66,7 +67,7 @@ export function applyNewBoardPosition(newBoard, oldBoard){
 }
 
 export function restoreBoardPosition(data, oldBoard){
-  debugger
+  console.log(data.color, data.blackPoints, data.whitePoints);
   oldBoard.color = data.color;
   oldBoard.whitePoints = data.whitePoints;
   oldBoard.blackPoints = data.blackPoints;

@@ -1,0 +1,155 @@
+/* @font-face{
+  font-family: 
+} */
+
+body{
+  background-color: black;
+  position: relative;
+}
+
+.credits{
+  position: absolute;
+  top: 0;
+  left: 70px;
+  height: 70px;
+  width: 760px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.learning{
+  margin: 0 20px;
+}
+
+.learning h3{
+  margin: 30px 20px;
+}
+
+
+.personal-credit{
+  position: absolute;
+  left: 805px;
+  top: 0px;
+  width: 400px
+}
+
+.game-container{
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: white;
+  width: 1200px;
+  left: 50%;
+  margin-left: -600px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+#game-element{
+  position: relative;
+  margin: 70px 0 70px 70px;
+
+}
+
+.header-element{
+  margin: 50px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.header-element label{
+  font-size: 20pt;
+}
+
+
+input{
+  margin-bottom: 5px;
+  padding: 3px;
+  height: 20px;
+  font-size: 13pt;
+}
+
+.user-and-points-display{
+  font-size: 14pt;
+}
+
+/* .game-entry-form{
+  margin: 70px 20px 35px 20px;
+} */
+
+.options-navigation-container{
+  position: relative;
+  margin: 70px 35px 70px 35px;
+  padding: 5px;
+  border: 2px solid black;
+  width: 100%;
+  height: 715px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#your-turn{
+  color: red;
+  padding: 5px;
+  border: 1px solid red;
+  position: absolute;
+  top: 0px;
+  width: 100px;
+  left: 50%;
+  margin-left: -50px;
+  text-align: center;
+}
+
+#title{
+  justify-content: center;
+  font-size: 20pt;
+  font-weight: 700;
+}
+
+.messages-container{
+  /* position: absolute; */
+  /* height: 500px; */
+  /* bottom: 0; */
+  margin: 10px;
+}
+
+.message-form{
+  width: 100%;
+}
+
+
+ul{
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#chat-ul{
+  display: flex; 
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  overflow: auto;
+  height: 350px;
+  width: 265px;
+  max-width: 265px;
+  margin: 20px 0;
+  border: 1px solid black;
+}
+
+li{
+  margin: 4px 20px;
+}
+
+.hidden{
+  display: none; 
+}
+
+

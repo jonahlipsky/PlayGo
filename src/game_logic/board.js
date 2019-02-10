@@ -11,6 +11,7 @@ class Board{
     this.grid = this.gridSetup(nCrosses);
     this.nCrosses = nCrosses;
     this.ip = 20; //inner padding for rendering
+    this.scaleConstant = 40;
 
     this.initialBoardSetup();
     this.render();
@@ -174,41 +175,43 @@ class Board{
 
   renderMostRecentMove(coords){
     let ip = this.ip;
+    let scale = this.scaleConstant;
     this.ctx.fillStyle = 'red';
     this.ctx.beginPath();
-    this.ctx.arc(coords[0] * 40 + ip, coords[1] * 40 + ip, 3, 0, 2*Math.PI, true);
+    this.ctx.arc(coords[0] * scale + ip, coords[1] * scale + ip, 3, 0, 2*Math.PI, true);
     this.ctx.fill();
   }
 
   render(){
 
-    let boardSize = 40 * this.nCrosses;
-    let p = 0; //outer padding
     let ip = this.ip;
+    let scale = this.scaleConstant;
+    let boardSize = scale * this.nCrosses;
+    let pieceRadius = Math.floor(((scale * 17) / 40));
     this.ctx.fillStyle = "#D5B077"; 
     this.ctx.fillRect(0,0,boardSize,boardSize); 
     this.ctx.lineWidth = 1;
     this.ctx.strokeStyle = 'black';
 
-    for (let y = ip; y <= boardSize; y += 40) {
-      this.ctx.moveTo(p + ip, p + y);
-      this.ctx.lineTo(boardSize - ip , p + y);
+    for (let y = ip; y <= boardSize; y += scale) {
+      this.ctx.moveTo(ip, y);
+      this.ctx.lineTo(boardSize - ip , y);
       this.ctx.stroke();        
     }
 
-    for (let x = ip; x <= boardSize; x += 40) {      
-      this.ctx.moveTo(p + x, p + ip);
-      this.ctx.lineTo(p + x, boardSize - ip );
+    for (let x = ip; x <= boardSize; x += scale) {      
+      this.ctx.moveTo(x, ip);
+      this.ctx.lineTo(x, boardSize - ip );
       this.ctx.stroke();        
     }
 
-    let dotCoords = [3*40 + ip, 9*40 + ip, 15*40 + ip];
+    let dotCoords = [3*scale + ip, 9*scale + ip, 15*scale + ip];
 
     this.ctx.fillStyle = 'black';
     for (let i = 0; i < dotCoords.length; i++) {
       for (let j = 0; j < dotCoords.length; j++) {
         this.ctx.beginPath();
-        this.ctx.arc(dotCoords[i], dotCoords[j], 5, 0, 2*Math.PI, true);
+        this.ctx.arc(dotCoords[i], dotCoords[j], Math.ceil(scale/8), 0, 2*Math.PI, true);
         this.ctx.fill();
       }
     }
@@ -219,7 +222,7 @@ class Board{
         if(node.stone){
           this.ctx.fillStyle = node.stone.color;
           this.ctx.beginPath();
-          this.ctx.arc(node.coords[0] * 40 + ip, node.coords[1] * 40 + ip, 17, 0, 2*Math.PI, true);
+          this.ctx.arc(node.coords[0] * scale + ip, node.coords[1] * scale + ip, pieceRadius, 0, 2*Math.PI, true);
           this.ctx.fill();
         }
       }

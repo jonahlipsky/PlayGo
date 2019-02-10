@@ -11,32 +11,49 @@
 </head>
 <body>
   <div class="game-container">
-
+    <div class="credits">
+      <h1>PlayGo!</h1>
+      <h2 class='personal-credit'>Developed by Jonah Lipsky</h2>
+    </div>
     <canvas id="game-element" width="760" height="760">
     </canvas>
     
     <div class="options-navigation-container">
-      
       <form id='game-selection-form' class="header-element game-entry-form">
         <label for="game-name-input">Enter Game Name:</label>
         <input id='game-name-input' type="text" placeholder="e.g. 'John vs Rachel'">
-        <label for="username">Enter your Username:</label>
+        <label for="username">Enter a Username:</label>
         <input id='username' type="text" placeholder="Username">
         <input type="submit" value='Join or Create Game!'>
       </form>
+      
+      <div class="learning" id="learning">
+          <h3>Never played before? The rules are super easy! It's the strategy that's hard. Check out these links:</h3>
+          <ul>
+            <li><a href="http://www.usgo.org/what-go">What is Go?</a></li>
+            <li><a href="http://www.usgo.org/learn-play">How to play</a></li>
+            <li><a href="https://tromp.github.io/go/legal.html">The complexity of Go</a></li>
+            <li><a href="https://deepmind.com/research/alphago/">Go and Artificial Intelligence</a></li>
+          </ul>
+      </div>
          
       <title id="title" class="header-element hidden"></title>
   
+      <p id='your-turn' class='hidden'>Your turn</p>
+
       <div id="user-and-points-display" class="user-and-points-display hidden">
         <div id="black"></div>
         <div id="white"></div>
       </div>
 
       <div id='messages-container' class="messages-container hidden">
-        <form class='messages-form'>
+        <h3>Chat</h3>
+        <form id="message-form" class='message-form'>  
+          <label for="message-body">Send message:</label>
           <input id="message-body" type='text'></input>
           <input type="submit" value='Send Message'>
         </form>
+        <ul id="chat-ul"></ul>
       </div>
     </div>
     

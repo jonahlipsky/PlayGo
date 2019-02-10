@@ -5,20 +5,29 @@ import { hasNullStone, isTaken, onlyOneLibertyInGroup,
 
 class Board{
   constructor(nCrosses){
+    this.whitePoints = 0;
+    this.blackPoints = 0;
+    this.color = 'black';
     this.grid = this.gridSetup(nCrosses);
     this.nCrosses = nCrosses;
-    this.color = 'black';
+    this.ip = 20; //inner padding for rendering
+
+    this.initialBoardSetup();
+    this.render();
+
+    this.previousBoardKoCheck = null;
+    this.playerName = null;
+    this.player1 = null;
+    this.player2 = null;
+    this.previousMovePlayerName = null;
+    this.moveEvent = this.moveEvent.bind(this);
+  }
+
+  initialBoardSetup(){
     this.gameElement = document.getElementById("game-element");
     this.ctx = this.gameElement.getContext('2d');
     this.ctx.translate(0, 760);
     this.ctx.scale(1, -1);
-    this.render();
-    this.whitePoints = 0;
-    this.blackPoints = 0;
-    this.previousBoardKoCheck = null;
-    this.playerName = null;
-    this.previousMovePlayerName = null;
-    this.moveEvent = this.moveEvent.bind(this);
   }
 
   makeMove(color, coords){
@@ -37,15 +46,26 @@ class Board{
     }
   }
 
+  checkValidPlayer(){
+    if(!this.player1 || !this.player2){
+      return true;
+    } else if(this.playerName === this.player1 || this.playerName === this.player2){
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   validMove(color, coords){
     //eventually add an option for ko as the first else if
     //add a case for not allowing suicidal moves
     let crossNode = this.grid[coords[0]][coords[1]];
     let connectedNodes = crossNode.connectedNodes;
-    if(this.playerName === this.previousMovePlayerName){
+    if(!this.checkValidPlayer()){
       return false;
-    }
-    else if(crossNode.stone){
+    } else if(this.playerName === this.previousMovePlayerName){
+      return false;
+    } else if(crossNode.stone){
       return false;
     // } else if (equivalentBoardPosition(      //Ko is a little harder than that
     //   this.previousBoardKoCheck, color, coords, this.grid
@@ -153,17 +173,25 @@ class Board{
     this.render();
     if(moveMade){
       this.color = this.color === 'black' ? 'white' : 'black';
-      return true;
+      return coords;
     } else {
-      return false;
+      return null;
     }
+  }
+
+  renderMostRecentMove(coords){
+    let ip = this.ip;
+    this.ctx.fillStyle = 'red';
+    this.ctx.beginPath();
+    this.ctx.arc(coords[0] * 40 + ip, coords[1] * 40 + ip, 3, 0, 2*Math.PI, true);
+    this.ctx.fill();
   }
 
   render(){
 
     let boardSize = 40 * this.nCrosses;
     let p = 0; //outer padding
-    let ip = 20;
+    let ip = this.ip;
     this.ctx.fillStyle = "#D5B077"; 
     this.ctx.fillRect(0,0,boardSize,boardSize); 
     this.ctx.lineWidth = 1;

@@ -1,53 +1,70 @@
+/* @font-face{
+  font-family: 
+} */
+
 body{
-  background-color: lightblue;
+  background-color: black;
+  position: relative;
 }
 
 .game-container{
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
+  background-color: white;
   /* bottom: 0; */
-  height: 900px;
-  width: 900px;
+  /* height: 900px; */
+  width: 1200px;
   left: 50%;
-  margin-left: -450px;
+  margin-left: -600px;
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: flex-start;
   align-items: center;
 }
 
 #game-element{
   position: relative;
+  margin: 70px 0 70px 70px;
 
 }
 
 .header-element{
-  position: fixed;
-  top: 0;
-  width: 900px;
-  left: 50%;
-  margin-left: -450px;
-  height: 70px;
+  margin: 50px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.header-element label{
+  font-size: 20pt;
+}
+
+
+input{
+  margin-bottom: 5px;
+  padding: 3px;
+  width: 100%;
+  height: 20px;
+  font-size: 13pt;
+}
+
+.user-and-points-display{
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 }
 
-input{
-  margin: 0 15px 0 5px;
-}
-
-.user-and-points-display{
-  position: fixed; 
-  bottom: 0;
-  width: 900px;
-  left: 50%;
-  margin-left: -450px;
-  height: 70px;
+.options-navigation-container{
+  margin: 70px 35px 70px 35px;
+  padding: 5px;
+  border: 2px solid black;
+  width: 100%;
+  height: 715px;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
 }
 
@@ -57,7 +74,12 @@ input{
   font-weight: 700;
 }
 
+.messages-container{
+  margin: 10px;
+}
+
 .hidden{
   display: none;
 }
+
 

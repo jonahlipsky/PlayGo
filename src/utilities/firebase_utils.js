@@ -14,6 +14,7 @@ export function submitBoardPosition(board, gameName){
   }
   board.previousBoardKoCheck = newGrid;
   let object = {
+    mostRecentPlayer: board.playerName,
     gameBoard: newGrid,
     color: board.color,
     blackPoints: board.blackPoints,
@@ -26,11 +27,12 @@ export function submitBoardPosition(board, gameName){
   });
 };
 
-export function loadBoardPosition(board, gameName){
+export function loadBoardPosition(board, gameName, username){
   const query = firebase.firestore()
                     .collection('games').doc(`${gameName}`).collection('boards')
                     .orderBy('timestamp', 'desc')
                     .limit(1);
+  board.playerName = username;
   query.onSnapshot(function(snapshot){
     // let docChanges = snapshot.docChanges()[0].doc.data();
     // let previousBoardKoCheck = snapshot.docChanges()[1].doc.data();
@@ -71,5 +73,6 @@ export function restoreBoardPosition(data, oldBoard){
   oldBoard.color = data.color;
   oldBoard.whitePoints = data.whitePoints;
   oldBoard.blackPoints = data.blackPoints;
+  oldBoard.previousMovePlayerName = data.mostRecentPlayer;
   applyNewBoardPosition(data.gameBoard, oldBoard);
 }

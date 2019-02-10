@@ -15,21 +15,31 @@
     <canvas id="game-element" width="760" height="760">
     </canvas>
     
-    
-    <form id='game-selection-form' class="header-element">
-      <label for="game-name-input">Enter Game Name:</label>
-      <input id='game-name-input' type="text">
-      <label for="username">Enter your username:</label>
-      <input id='username' type="text">
-      <input type="submit" value='Join or Create Game!'>
-    </form>
-       
-    <title id="title" class="header-element hidden"></title>
+    <div class="options-navigation-container">
+      
+      <form id='game-selection-form' class="header-element game-entry-form">
+        <label for="game-name-input">Enter Game Name:</label>
+        <input id='game-name-input' type="text" placeholder="e.g. 'John vs Rachel'">
+        <label for="username">Enter your Username:</label>
+        <input id='username' type="text" placeholder="Username">
+        <input type="submit" value='Join or Create Game!'>
+      </form>
+         
+      <title id="title" class="header-element hidden"></title>
+  
+      <div id="user-and-points-display" class="user-and-points-display hidden">
+        <div id="black"></div>
+        <div id="white"></div>
+      </div>
 
-    <div id="user-and-points-display" class="user-and-points-display hidden">
-      <div id="black"></div>
-      <div id="white"></div>
+      <div id='messages-container' class="messages-container hidden">
+        <form class='messages-form'>
+          <input id="message-body" type='text'></input>
+          <input type="submit" value='Send Message'>
+        </form>
+      </div>
     </div>
+    
   </div>
 </body>
 </html>

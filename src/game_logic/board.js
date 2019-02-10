@@ -8,7 +8,6 @@ class Board{
     this.grid = this.gridSetup(nCrosses);
     this.nCrosses = nCrosses;
     this.color = 'black';
-
     this.gameElement = document.getElementById("game-element");
     this.ctx = this.gameElement.getContext('2d');
     this.ctx.translate(0, 760);
@@ -17,6 +16,8 @@ class Board{
     this.whitePoints = 0;
     this.blackPoints = 0;
     this.previousBoardKoCheck = null;
+    this.playerName = null;
+    this.previousMovePlayerName = null;
     this.moveEvent = this.moveEvent.bind(this);
   }
 
@@ -41,7 +42,10 @@ class Board{
     //add a case for not allowing suicidal moves
     let crossNode = this.grid[coords[0]][coords[1]];
     let connectedNodes = crossNode.connectedNodes;
-    if(crossNode.stone){
+    if(this.playerName === this.previousMovePlayerName){
+      return false;
+    }
+    else if(crossNode.stone){
       return false;
     // } else if (equivalentBoardPosition(      //Ko is a little harder than that
     //   this.previousBoardKoCheck, color, coords, this.grid

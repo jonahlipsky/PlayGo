@@ -38,7 +38,6 @@ class Board{
         this.checkAdjacentEnemyGroups(targetNode);
         return true;
       case false:
-        console.log("invalid move");
         return false;
       default:
         console.log('error: did not hit any options in makeMove');
@@ -67,12 +66,6 @@ class Board{
       return false;
     } else if(crossNode.stone){
       return false;
-    // } else if (equivalentBoardPosition(      //Ko is a little harder than that
-    //   this.previousBoardKoCheck, color, coords, this.grid
-    // )) {
-    //   debugger;
-    //   console.log('Illegal move: Ko');
-    //   return false;
     } else if (this.checkIfMoveWouldTakeEnemy(crossNode, color)) {
       return true;
     } else if (connectedNodes.some(hasNullStone)){

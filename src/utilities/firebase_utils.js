@@ -97,7 +97,6 @@ export function submitBoardPosition(board, gameName, coords){
 
 
 export function restoreBoardPosition(data, oldBoard){
-  console.log(data.color, data.blackPoints, data.whitePoints);
   oldBoard.color = data.color;
   oldBoard.whitePoints = data.whitePoints;
   oldBoard.blackPoints = data.blackPoints;

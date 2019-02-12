@@ -5,3 +5,4 @@ dist/bundle.js.*
 js-go-game-231200-5b0b44c39bd9.json
 firebase-debug.log
 .DS_Store
+game-logic-bugs

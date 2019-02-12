@@ -52,17 +52,14 @@ export const noLibertiesInGroup = node => {
       return false;
     } else {
       previouslyChecked.push(checkNode);
-      
       checkNode.sameColorNodes.forEach((sameColorNode) => {
         if(!previouslyChecked.includes(sameColorNode)){
           queue.push(sameColorNode);
         }
       });
     }
-
   }
   return true;
-
 };
 
 
@@ -70,22 +67,26 @@ export const noLibertiesInGroup = node => {
 export const gatherEnemyGroups = (targetNode) => {
   let adjacentEnemyNodes = targetNode.oppositeColorNodes;
   let enemyGroups = [];
-  adjacentEnemyNodes.forEach(enemyNode => {
-    let group;
-    if(!enemyGroups.length || enemyGroups.every(array => {
-      return !array.includes(enemyNode);
-    })){
-      group = [enemyNode];
-      let queue = enemyNode.sameColorNodes;
-      while(queue.length){
-        let nextNode = queue.splice(0,1)[0];
-        if(!group.includes(nextNode)){
-          group.push(nextNode);
-        }
+  for (let i = 0; i < adjacentEnemyNodes.length; i++) {
+    let alreadyPresent = false;
+    for (let j = 0; j < enemyGroups.length; j++) {
+      if(enemyGroups[j].includes(adjacentEnemyNodes[i])){
+        alreadyPresent = true;
       }
     }
-    enemyGroups.push(group);
-  });
+    if(!alreadyPresent){
+      let group = [];
+      let queue = [adjacentEnemyNodes[i]];
+      while(queue.length){
+        group.push(queue[0]);
+        queue[0].sameColorNodes.forEach(node => {
+          if ( !group.includes(node) && !queue.includes(node) ) queue.push(node);
+        });
+        queue = queue.slice(1);
+      }
+      enemyGroups.push(group);
+    }
+  }
   return enemyGroups;
 };
 

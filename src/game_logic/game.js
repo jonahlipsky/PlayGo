@@ -1,9 +1,19 @@
 import firebase from "firebase";
 import { submitBoardPosition, loadBoardPosition, 
-  sendNewMessage, loadMessages } from '../utilities/firebase_utils';
+  sendNewMessage, loadMessages, loadRecentGames } from '../utilities/firebase_utils';
 import Board from './board';
 
 export function Game(){
+  var config = {
+    apiKey: "AIzaSyB2XrtPKjoI9FEWJ5I4pWiFVAjV1j8S4AE",
+    authDomain: "js-go-game.firebaseapp.com",
+    databaseURL: "https://js-go-game.firebaseio.com",
+    projectId: "js-go-game",
+    storageBucket: "js-go-game.appspot.com",
+    messagingSenderId: "949423767166"
+  };
+  
+  firebase.initializeApp(config);
 
   const board = new Board(19);
   board.render();
@@ -13,6 +23,7 @@ export function Game(){
 
 function setGameSelectionFormListener(board){
   let form = document.getElementById('game-selection-form');
+  loadRecentGames();
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     let gameName = document.getElementById('game-name-input').value;
@@ -23,6 +34,8 @@ function setGameSelectionFormListener(board){
       let title = document.getElementById('title');
       let userPoints = document.getElementById('user-and-points-display');
       let learning = document.getElementById('learning');
+      let recentGames = document.getElementById('recent-games-container');
+      recentGames.classList.add('hidden');
       title.innerHTML = gameName + `: Hello, ${username}`;
       learning.classList.add('hidden');
       form.classList.add('hidden');
@@ -32,6 +45,7 @@ function setGameSelectionFormListener(board){
     }
   });
 }
+
 
 function initializeChat(playerName, gameName){
   let chatElement = document.getElementById('messages-container');
@@ -49,17 +63,6 @@ function initializeChat(playerName, gameName){
 }
 
 function initializeGame(nameOfGame, username, board){
-
-  var config = {
-    apiKey: "AIzaSyB2XrtPKjoI9FEWJ5I4pWiFVAjV1j8S4AE",
-    authDomain: "js-go-game.firebaseapp.com",
-    databaseURL: "https://js-go-game.firebaseio.com",
-    projectId: "js-go-game",
-    storageBucket: "js-go-game.appspot.com",
-    messagingSenderId: "949423767166"
-  };
-  
-  firebase.initializeApp(config);
 
   let gameName = nameOfGame;
   let white = document.getElementById('white');

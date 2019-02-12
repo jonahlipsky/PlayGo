@@ -1,4 +1,47 @@
 import firebase from "firebase";
+import moment from 'moment';
+
+export function loadRecentGames(){  //=> [gameName, timestamp]
+  const query = firebase.firestore()
+                    .collection('recent-games').orderBy('timestamp', 'desc').limit(100);
+  query.onSnapshot(function(snapshot){
+    let games = [];
+    snapshot.docChanges().forEach(function(change){
+      if(change.type === "added"){
+        let data = change.doc.data();
+          games.push([data.gameName, data.timestamp, data.black, data.white]);
+      }
+    });
+    setRecentGames(games);
+  });
+  
+}
+
+
+function setRecentGames(recentGames){
+  const recentGamesUl = document.getElementById('recent-games');
+  let games = {};
+  let recentKeys = [];
+  recentGames.forEach(game => {
+    if(!games[game[0]] && recentKeys.length < 3){
+      games[game[0]] = game;
+      recentKeys.push(game[0]);
+    }
+  });
+  recentKeys.forEach(key => {
+    let game = games[key];
+    let li = document.createElement("li");
+    //dont allow a null timestamp and ensure both white and black players
+    if(game[1] && game[3]){ 
+      let time = moment.unix(game[1].seconds).fromNow();
+      let string = "Game: " + game[0] + ", black: " + game[2] + ", white: " + game[3] + ". Last Move: " + time ;
+      let textNode = document.createTextNode(string);
+      li.appendChild(textNode);
+      recentGamesUl.appendChild(li);
+    }
+  });
+}
+
 
 export function loadMessages(gameName){
   const query = firebase.firestore()
@@ -89,6 +132,10 @@ export function submitBoardPosition(board, gameName, coords){
     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     coords
   };
+  firebase.firestore().collection('recent-games').add({gameName, 
+    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    black: player1,
+    white: player2});
   return firebase.firestore().collection('games').doc(`${gameName}`).collection('boards').add(object)
     .catch(function(error) {
     console.error('Error writing new grid to database', error);
@@ -108,7 +155,7 @@ export function restoreBoardPosition(data, oldBoard){
   let black = document.getElementById('black');
   black.innerHTML = data.blackPoints === 1 ? 
     `Black has captured 1 stone` : 
-    `Black has captured ${data.blackPoints} stones`
+    `Black has captured ${data.blackPoints} stones`;
   white.innerHTML = data.whitePoints === 1 ? 
     `White has captured 1 stone`: 
     `White has captured ${data.whitePoints} stones`;

@@ -13,7 +13,6 @@
   <div class="game-container">
     <div class="credits">
       <h1>PlayGo!</h1>
-      <h2 class='personal-credit'>Developed by Jonah Lipsky</h2>
     </div>
     
     <canvas id="game-element" width="760" height="760">
@@ -27,6 +26,12 @@
         <input id='username' type="text" placeholder="Username">
         <input type="submit" value='Join or Create Game!'>
       </form>
+
+      <div class="recent-games-container" id="recent-games-container">
+        <h3>Recent Games</h3>
+        <ul id='recent-games'>
+        </ul>
+      </div>
       
       <div class="learning" id="learning">
           <h3>Never played before? The rules are super easy! It's the strategy that's hard. Check out these links:</h3>
@@ -56,6 +61,13 @@
         </form>
         <ul id="chat-ul"></ul>
       </div>
+
+    </div>
+
+    <div class='personal-credit'>
+      <p>Developed by Jonah Lipsky. Find my other work here:</p>
+      <a href="#">Github </a>
+      <a href="#">Personal Website</a>
     </div>
     
   </div>

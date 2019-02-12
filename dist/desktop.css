@@ -165,7 +165,7 @@ li{
 .recent-games-container{
   position: absolute;
   top: 260px;
-  margin-left: -20px;
+  width: 270px;
 }
 
 .recent-games-container h3{
@@ -173,7 +173,7 @@ li{
 }
 
 .recent-games-container li{
-  margin: 0 20px 10px 0;
+  margin: 0 20px 10px 20px;
 }
 
 

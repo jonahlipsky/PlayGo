@@ -1,5 +1,5 @@
 import crossNode from './cross_node';
-import { hasNullStone, isTaken, onlyOneLibertyInGroup, 
+import { hasNullStone, onlyOneLibertyInGroup, 
   gatherEnemyGroups, connectedNodesSetup, equivalentBoardPosition } from '../utilities/board_utils';
 //import a final liberty method
 
@@ -154,8 +154,6 @@ class Board{
     }
   }
 
-  
-
   moveEvent(e){
     let x = e.offsetX - 20;
     let y = 740 - e.offsetY;
@@ -183,7 +181,6 @@ class Board{
   }
 
   render(){
-
     let ip = this.ip;
     let scale = this.scaleConstant;
     let boardSize = scale * this.nCrosses;

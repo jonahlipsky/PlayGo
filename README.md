@@ -1,6 +1,6 @@
 # job_search_js_project
 
-# Project Title: PlayGo!
+# PlayGo!
 
 ## Live Link!
 [PlayGo! Live](http://playgo.jonahlipsky.io "PlayGo! Live")

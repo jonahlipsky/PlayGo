@@ -103,7 +103,6 @@ export function submitBoardPosition(board, gameName, coords){
     }
   }
   board.previousBoardKoCheck = newGrid;
-
   //initialize players one and two. 
   //board method #check valid player verifies using this info
   let player1 = board.player1 || board.playerName;

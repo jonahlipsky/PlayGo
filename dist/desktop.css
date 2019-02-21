@@ -15,8 +15,6 @@ body{
   align-items: center;
 }
 
-
-
 .personal-credit{
   position: absolute;
   left: 70px;
@@ -51,7 +49,6 @@ body{
 #game-element{
   position: relative;
   margin: 70px 0 70px 70px;
-
 }
 
 .header-element{
@@ -65,7 +62,6 @@ body{
 .header-element label{
   font-size: 20pt;
 }
-
 
 input{
   margin-bottom: 5px;

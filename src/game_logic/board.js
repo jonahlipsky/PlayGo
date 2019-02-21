@@ -1,7 +1,6 @@
 import crossNode from './cross_node';
 import { hasNullStone, onlyOneLibertyInGroup, 
-  gatherEnemyGroups, connectedNodesSetup, equivalentBoardPosition } from '../utilities/board_utils';
-//import a final liberty method
+  gatherEnemyGroups, connectedNodesSetup } from '../utilities/board_utils';
 
 class Board{
   constructor(nCrosses){

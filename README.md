@@ -3,7 +3,7 @@
 # Project Title: PlayGo!
 * Background and Overview
     * Motivation for project: One of the ancient strategy games of the world, Go has engrossed humans for millenia. PlayGo! will provide an easy-to-use interface for playing Go against a friend or a stranger. 
-    * High level overview: The game Go uses relatively simple rules and a grid board which, together, create more than 10^170  [legal board positions](https://tromp.github.io/go/legal.html). It's an ancient strategy game with incredible layers of complexity. The object of the game is to capture territory, represented as crosses on a grid, traditionally of size 9x9, 13x13, or 19x19. Important strategic considerations include protecting your own territory and stones, while threatening and capturing the opponent's stones and territory. The game ends when both players agree that there are no reasonable moves left, or in other words, neither player believes that they can improve their position further.
+    * High level overview: The game Go uses relatively simple rules and a grid board which, together, create more than 10^170  [legal board positions](https://tromp.github.io/go/legal.html). It's an ancient strategy game with incredible layers of complexity. The object of the game is to capture territory, represented as crosses on a grid, traditionally of size 19x19, though 9x9 and 13x13 are common for beginner games. Important strategic considerations include protecting your own territory and stones, while threatening and capturing the opponent's stones and territory. The game ends when both players agree that there are no reasonable moves left, or in other words, neither player believes that they can improve their position further.
     
 * Functionality and MVP Features
     * Feature 1: Game board and rule set
@@ -29,15 +29,13 @@
        * Everyone who logs into the site are represented as a username in a user list
        * Everyone, both players and spectators, can comment and have their posts publicly seen by all in attendance
 * Architecture and Technologies
-    * Socket.io
-        * Socket.io is a library that enables real-time two-way interaction that runs on Node.js. It contains the basis for a server and client implementations that expose APIs that can be used like websockets. It's underlying technology is indeed websockets.
-        * This will allow two players on separate computers, or on separate sessions on the same computer, to play against each other. It will allow multiple players and spectators to chat with each other. It also allows the possibility for multiple channels, so this could eventually be used to allow for multiple games being played simultaneously.
-    * Google Firebase: Firestore
-        * Firestore is a NoSQL server that runs in Google's cloud services. It integrates with Node.js, allowing it to be used to hose the Socket.io server.
-        * In order to create an interactive two player game, and also to create the ability to chat in real time, a server needs to be employed for websocket functionality. Google Firestore allows a free option which allows more than enough bandwidth, storage, and download capability for the light-weight footprint of this game. 
-   * Javascript for basic game implementation and logic
-   * HTML Canvas for rendering of pieces and the game board
-   * Webpack for bundling multiple javascript files
+  * Google Firebase
+      * Firebase is a NoSQL server that runs in Google's cloud services. It integrates with Node.js allowing it to host the app. 
+      * In order to create an interactive two player game, and also to create the ability to chat in real time, a server needs to be employed for websocket-like functionality. Google Firebase has easy-to-use event listeners which will send snapshots to open session of the App upon a change to the databse, given the specified event listeners. 
+      * Google Firebase's baseline free option allows more than enough bandwidth, storage, and download capability for the light-weight footprint of this game. 
+  * Javascript for basic game implementation and logic
+  * HTML Canvas for rendering of pieces and the game board
+  * Webpack for bundling multiple javascript files
    
 ## Implementation Timeline
   * By end of Wednesday, February 6th: 

@@ -3,7 +3,7 @@
 # Project Title: PlayGo!
 
 ## Live Link!
-[PlayGo! Live](https://playgo.jonahlipsky.io "PlayGo! Live")
+[PlayGo! Live](http://playgo.jonahlipsky.io "PlayGo! Live")
 
 ## Background and Overview
   * Motivation for project: One of the ancient strategy games of the world, Go has engrossed humans for millenia. PlayGo! will provide an easy-to-use interface for playing Go against a friend or a stranger. 

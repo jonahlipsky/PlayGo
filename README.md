@@ -1,63 +1,31 @@
 # job_search_js_project
 
 # Project Title: PlayGo!
-* Background and Overview
-    * Motivation for project: One of the ancient strategy games of the world, Go has engrossed humans for millenia. PlayGo! will provide an easy-to-use interface for playing Go against a friend or a stranger. 
-    * High level overview: The game Go uses relatively simple rules and a grid board which, together, create more than 10^170  [legal board positions](https://tromp.github.io/go/legal.html). It's an ancient strategy game with incredible layers of complexity. The object of the game is to capture territory, represented as crosses on a grid, traditionally of size 19x19, though 9x9 and 13x13 are common for beginner games. Important strategic considerations include protecting your own territory and stones, while threatening and capturing the opponent's stones and territory. The game ends when both players agree that there are no reasonable moves left, or in other words, neither player believes that they can improve their position further.
+## Background and Overview
+  * Motivation for project: One of the ancient strategy games of the world, Go has engrossed humans for millenia. PlayGo! will provide an easy-to-use interface for playing Go against a friend or a stranger. 
+  * High level overview: The game Go uses relatively simple rules and a grid board which, together, create more than 10^170  [legal board positions](https://tromp.github.io/go/legal.html). It's an ancient strategy game with incredible layers of complexity. The object of the game is to capture territory, represented as crosses on a grid, traditionally of size 19x19, though 9x9 and 13x13 are common for beginner games. Important strategic considerations include protecting your own territory and stones, while threatening and capturing the opponent's stones and territory. The game ends when both players agree that there are no reasonable moves left, or in other words, neither player believes that they can improve their position further.
 
 ![Go Game in Progress](https://github.com/jonahlipsky/job_search_js_project/blob/master/src/images/go-game-with-moves-and-chat.png)
+
+## Key Features
+  * Game board and rule set: Game board renders a 19x19 grid and the game rules allow for game pieces to be captured and illegal moves to be refused.
+  * Two sided turn based game
+    * Users will be able to make moves and their moves will be represented on the other computer in real time.
+    * Game states are saved and can be returned to at a later date.
+  * Chat room feature
+    * Users can send chat messages back and forth in real time in the game. 
+    * Non-player spectators can also send chat messages.
     
-* Functionality and MVP Features
-    * Feature 1: Game board and rule set
-      * The full implementation of the game rules allow for game pieces to be captured and illegal moves to be refused with an error message. 
-      * Illegal moves prevented, including playing in a position that would result in being immediately taken and repeating a board position less than 1 full turn (both players playing) after it was previously seen.
-      * Game board input allowing for 9x9, 13x13 and 19x19 boards.
-    * Feature 2: One-sided turn based clickable game interacting with the game board. 
-      * Users on the same computer can play a game of Go by clicking on the game board at a certain position.
-      * Stone will automatically be assigned to black or white depending on the turn
-    * Feature 3: "Pass" button and automatic Scoring
-      * Implement a 'pass turn' button. The game ends when both players press the 'pass turn' button on their turn.
-      * Using a rule set, automatically tabulate the final score.
-         * Captured territory is scored for the player who surrounds those crosses.
-         * Captured stones subtracted from their owners final score. 
-         * Stones contained within another persons territory, if they do not contain an 'eye', are considered taken. 
-         * Number adjustor elements are displayed that allow players to adjust final score, allowing for adjustment for 'seki' (see Bonus feature 1). 
-     * Feature 4: Two-sided turn based game
-       * Users who come to the website can enter their name. Once two individuals have 'logged in', the game begins.
-       * Users will be able to make moves and their moves will be represented on the other computer in real time.
-       * The first user to the site chooses whether the game is 9x9, 13x13 or 19x19. 
-       * When two players have logged in, and player one has selected the game board, the game begins. If more than two players log in, the first two to arrive are the ones who play the game.
-     * Feature 5: Chat Room feature
-       * Everyone who logs into the site are represented as a username in a user list
-       * Everyone, both players and spectators, can comment and have their posts publicly seen by all in attendance
 * Architecture and Technologies
   * Google Firebase
-      * Firebase is a NoSQL server that runs in Google's cloud services. It integrates with Node.js allowing it to host the app. 
-      * In order to create an interactive two player game, and also to create the ability to chat in real time, a server needs to be employed for websocket-like functionality. Google Firebase has easy-to-use event listeners which will send snapshots to open session of the App upon a change to the databse, given the specified event listeners. 
-      * Google Firebase's baseline free option allows more than enough bandwidth, storage, and download capability for the light-weight footprint of this game. 
+    * Firebase is a NoSQL server that runs in Google's cloud services. It integrates with Node.js allowing it to host the App. 
+    * In order to create an interactive two player game, and also to create the ability to chat in real time, Google Firebase employs easy-to-use event listeners which will send snapshots to open session of the App upon a change to the databse.
   * Javascript for basic game implementation and logic
   * HTML Canvas for rendering of pieces and the game board
   * Webpack for bundling multiple javascript files
-   
-## Implementation Timeline
-  * By end of Wednesday, February 6th: 
-    * Complete game board and rule set. 
-    * Basic visualization of a grid complete.
-    * Partially completed implementation of feature 2, click based gameplay. 
-  * By end of Thursday, February 7th:
-    * Complete click based gameplay feature
-    * Complete "Pass turn" button and automatic scoring
-  * By end of Friday, February 8th: 
-    * Deep into work on two-sided game feature with Google Firestore and Socket.io implemented
-  * By end of Saturday, February 9th:
-    * Complete two-sided game feature
-    * Begun work on chat room feature
-  * By end of Sunday, February 10th:
-    * Complete chat room feature
-    * Implement Seki automatic scoring (Bonus 1)
-    
-## Bonus Features
-  * Bonus 1: Implement Seki automatic scoring. 'Seki', or 'mutual life', is when neither player is said to have taken the other's pieces because either player making a move to surround the other's pieces would result in their own peices being taken. It is a sort of a draw in a local board position and affords no points to either player. 
-  * Bonus 2: Multiple simultaneous games.
-    * Enable functionality where players can make different 'Game Rooms' where, when two players join, the game begins. Again, the first player to join the room chooses the size of the board. 
-    * Chats in each 'Game Room' are only visible to individuals in those rooms.
+  
+## Future directions: 
+  * Short term: connect to external API to handle game scoring and an AI computer player.
+  * Medium term: write my own game scoring script in javascript.
+  * Long term: write my own AI that utilizes Deep Learning and Neural Networks to learn the game of Go, following the example of Google's Deep Mind team.
+  * Improve rendering of game board to be more visually appealing.

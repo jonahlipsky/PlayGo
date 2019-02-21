@@ -19,8 +19,51 @@
   * Chat room feature
     * Users can send chat messages back and forth in real time in the game. 
     * Non-player spectators can also send chat messages.
-    
-* Architecture and Technologies
+  
+## Code Highlights
+
+Each cross in the game board is treated as a node that holds state about itself and directly abutting nodes. This allows for efficient algorithms that determine groups of stones connected by straight lines, or 'dragons' in Go terminology. It also allows for easily and efficiently determining if a move takes an enemy or if a move is illegal, since those would both depend on directly abutting node and groups of nodes.
+
+```javascript
+#/src/game_logic/cross_node.js
+class crossNode{
+  constructor(coords, board){ //coord: [x,y]
+    this.coords = coords;
+    this.connectedNodes = [];
+    this.sameColorNodes = [];
+    this.oppositeColorNodes = [];
+    this.stone = null;
+    this.board = board;
+  }
+```
+
+Every time a player submits a move, a plain old javascript object (POJO) is uploaded to the serve that contains the entire game board (also a POJO), both players points, the most recent player name, player one's name, player two's name, the timestamp of the update, and the coordinates of the most recent move. This allows tracking of whose turn it is, the current points, and verification that only the two players who are playing the game and logged in as the name of the player whose turn it is can play a move. This is not implmenting a rigorous authentication pattern because the risk for abuse is low and the tradeoff with the hassle of forcing a user to submit and remember a password doesn't outweight that, at this stage. 
+
+```javascript
+#/src/utilities/firebase_utils.js
+let object = {
+    mostRecentPlayer: board.playerName,
+    gameBoard: newGrid,
+    color: board.color,
+    blackPoints: board.blackPoints,
+    whitePoints: board.whitePoints,
+    playerOne: player1,
+    playerTwo: player2,
+    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    coords
+  };
+  firebase.firestore().collection('recent-games').add({gameName, 
+    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    black: player1,
+    white: player2});
+  return firebase.firestore().collection('games').doc(`${gameName}`).collection('boards').add(object)
+    .catch(function(error) {
+    console.error('Error writing new grid to database', error);
+  });
+};
+```
+  
+## Architecture and Technologies
   * Google Firebase
     * Firebase is a NoSQL server that runs in Google's cloud services. It integrates with Node.js allowing it to host the App. 
     * In order to create an interactive two player game, and also to create the ability to chat in real time, Google Firebase employs easy-to-use event listeners which will send snapshots to open session of the App upon a change to the databse.

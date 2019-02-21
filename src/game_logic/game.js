@@ -14,7 +14,6 @@ export function Game(){
   };
   
   firebase.initializeApp(config);
-
   const board = new Board(19);
   board.render();
   setGameSelectionFormListener(board);

@@ -5,7 +5,7 @@
     * Motivation for project: One of the ancient strategy games of the world, Go has engrossed humans for millenia. PlayGo! will provide an easy-to-use interface for playing Go against a friend or a stranger. 
     * High level overview: The game Go uses relatively simple rules and a grid board which, together, create more than 10^170  [legal board positions](https://tromp.github.io/go/legal.html). It's an ancient strategy game with incredible layers of complexity. The object of the game is to capture territory, represented as crosses on a grid, traditionally of size 19x19, though 9x9 and 13x13 are common for beginner games. Important strategic considerations include protecting your own territory and stones, while threatening and capturing the opponent's stones and territory. The game ends when both players agree that there are no reasonable moves left, or in other words, neither player believes that they can improve their position further.
 
-![Go Game in Progress](https://github.com/jonahlipsky/blob/master/src/images/go-game-with-moves-and-chat.png "Go Game in Progress")
+![Go Game in Progress](https://github.com/jonahlipsky/job_search_js_project/blob/master/src/images/go-game-with-moves-and-chat.png)
     
 * Functionality and MVP Features
     * Feature 1: Game board and rule set

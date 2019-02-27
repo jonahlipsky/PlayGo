@@ -20,11 +20,11 @@ body{
   left: 70px;
   bottom: 0px;
   height: 70px;
-  width: 760px;
+  width: 1200px;
   display: flex;
   flex-direction: row;
   align-items: center;
-  font-size: 16pt;
+  font-size: 18pt;
   font-weight: 700;
 }
 
@@ -162,4 +162,9 @@ li{
 
 .hidden{
   display: none; 
+}
+
+a{
+  color: rgb(55, 23, 235);
+  text-decoration: inherit;
 }

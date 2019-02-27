@@ -1,4 +1,4 @@
-import firebase from "firebase";
+import firebase from "firebase/app";
 import { submitBoardPosition, loadBoardPosition, 
   sendNewMessage, loadMessages, loadRecentGames } from '../utilities/firebase_utils';
 import Board from './board';

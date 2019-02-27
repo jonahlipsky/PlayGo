@@ -1,5 +1,3 @@
-# job_search_js_project
-
 # PlayGo!
 
 ## Live Link!

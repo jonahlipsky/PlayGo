@@ -168,3 +168,7 @@ a{
   color: rgb(55, 23, 235);
   text-decoration: inherit;
 }
+
+#game-type{
+  margin: 10px 0;
+}

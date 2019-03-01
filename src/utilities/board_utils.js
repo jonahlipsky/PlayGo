@@ -3,8 +3,6 @@ export const hasNullStone = (node) => {
 };
 
 export function nLibertiesInGroup(group){
-  console.log(group)
-  debugger
   let n = 0;
   let previousLiberties = {};
   group.forEach(node => {
@@ -12,12 +10,10 @@ export function nLibertiesInGroup(group){
       n += adjustLiberties(previousLiberties, node);
     }
   });
-  debugger
   return n;
 }
 
 function adjustLiberties(previousLiberties, node){
-  debugger
   let n = 0;
   node.connectedNodes.forEach(adjacentNode => {
     if(!adjacentNode.stone){
@@ -25,12 +21,10 @@ function adjustLiberties(previousLiberties, node){
       previousLiberties[adjacentNode.coords] = true;
     }
   });
-  debugger
   return n;
 }
 
 export const gatherEnemyGroups = (targetNode) => {
-  debugger
   let adjacentEnemyNodes = targetNode.oppositeColorNodes;
   let enemyGroups = [];
   for (let i = 0; i < adjacentEnemyNodes.length; i++) {
@@ -57,7 +51,6 @@ export const gatherEnemyGroups = (targetNode) => {
 };
 
 export const gatherSameColorGroups = (targetNode, color) => {
-  debugger
   let adjacentFriendlyNodes = targetNode.connectedNodes.filter(node => {
     return node.stone && node.stone.color === color;
   });
@@ -83,7 +76,6 @@ export const gatherSameColorGroups = (targetNode, color) => {
       friendlyGroups.push(group);
     }
   }
-  debugger
   return friendlyGroups;
 };
 

@@ -36,17 +36,12 @@ class Board{
     let targetNode = this.grid[coords[0]][coords[1]];
     switch(this.validMove(color,coords)){
       case true: 
-        debugger
-        console.log("make move: true")
         targetNode.assignStone(color);
         this.checkAdjacentEnemyGroups(targetNode);
         return true;
       case false:
-        console.log("make move: false")
-        console.log('didnt make a move')
         return false;
       default:
-        console.log('make move error: did not hit any options in makeMove');
         return false;
     }
   }
@@ -73,13 +68,10 @@ class Board{
     } else if(crossNode.stone){
       return false;
     } else if (this.checkIfMoveWouldTakeEnemy(crossNode, color)) {
-      console.log("valid move: move would take enemy");
       return true;
     } else if (connectedNodes.some(hasNullStone)){
-      console.log('valid move: has some adjacent null stones');
       return true;
     } else if (this.checkIfWouldBeTaken(crossNode, color)){
-      console.log("invalid move: would be taken by enemy");
       return false;
     } else {
       return true;
@@ -90,10 +82,8 @@ class Board{
     let enemyColor = makingMoveColor === 'white' ? 'black' : 'white';
     let enemyGroups = gatherSameColorGroups(node, enemyColor);
     let moveWouldTakeEnemy = false;
-    debugger
     enemyGroups.forEach((group) => {
       if(nLibertiesInGroup(group) === 1){
-        console.log(group, `nLibertiesInGroup: ${nLibertiesInGroup(group)}`);
         moveWouldTakeEnemy = true;
       }
     });
@@ -102,7 +92,6 @@ class Board{
 
 
   checkIfWouldBeTaken(crossNode, makingMoveColor){
-    debugger
     //handles the case where a move would be complete surrounded
     let enemyAdjacent = 0;
     crossNode.connectedNodes.forEach(node => {
@@ -117,7 +106,6 @@ class Board{
     if(friendlyGroups.every(group => {
       return nLibertiesInGroup(group) === 1;
     })){
-      console.log("all adjacent friendly groups have one liberty")
       return true;
     } else {
       return false;
@@ -214,11 +202,9 @@ class Board{
     let moveMade = this.makeMove(color,coords);
     this.render();
     if(moveMade && this.gameType != 'one-player'){
-      console.log("color switch option one")
       this.color = this.color === 'black' ? 'white' : 'black';
       return coords;
     } else if(moveMade){
-      console.log("color switch option two")
       this.color = this.color === 'black' ? 'white' : 'black';
       return null;
     } else {
@@ -236,7 +222,6 @@ class Board{
   }
 
   render(){
-    console.log(this.grid);
     let ip = this.ip;
     let scale = this.scaleConstant;
     let boardSize = scale * this.nCrosses;

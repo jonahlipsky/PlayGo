@@ -10,7 +10,6 @@ class crossNode{
   }
 
   assignStone(color){
-    console.log(`assign stone: ${color}`);
     this.stone = new stone(color);
     this.updateSelf();
     this.connectedNodes.forEach(node => {

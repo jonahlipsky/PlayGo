@@ -18,7 +18,6 @@ export function loadRecentGames(){  //=> [gameName, timestamp]
   
 }
 
-
 function setRecentGames(recentGames){
   const recentGamesUl = document.getElementById('recent-games');
   let games = {};

@@ -68,10 +68,13 @@ class Board{
     } else if(crossNode.stone){
       return false;
     } else if (this.checkIfMoveWouldTakeEnemy(crossNode, color)) {
+      console.log('valid move: move would take enemy');
       return true;
     } else if (connectedNodes.some(hasNullStone)){
+      console.log('valid move: connected node has null stones');
       return true;
     } else if (this.checkIfWouldBeTaken(crossNode, color)){
+      console.log("invalid move: move would be taken by enemy");
       return false;
     } else {
       return true;
@@ -81,6 +84,8 @@ class Board{
   checkIfMoveWouldTakeEnemy(node, makingMoveColor){
     let enemyColor = makingMoveColor === 'white' ? 'black' : 'white';
     let enemyGroups = gatherSameColorGroups(node, enemyColor);
+    console.log(enemyGroups);
+    debugger
     let moveWouldTakeEnemy = false;
     enemyGroups.forEach((group) => {
       if(nLibertiesInGroup(group) === 1){

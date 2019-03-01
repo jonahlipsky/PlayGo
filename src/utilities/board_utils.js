@@ -3,6 +3,7 @@ export const hasNullStone = (node) => {
 };
 
 export function nLibertiesInGroup(group){
+  debugger
   let n = 0;
   let previousLiberties = {};
   group.forEach(node => {
@@ -10,17 +11,20 @@ export function nLibertiesInGroup(group){
       n += adjustLiberties(previousLiberties, node);
     }
   });
+  debugger
   return n;
 }
 
 function adjustLiberties(previousLiberties, node){
+  debugger
   let n = 0;
   node.connectedNodes.forEach(adjacentNode => {
-    if(!adjacentNode.stone){
+    if(!adjacentNode.stone && !previousLiberties[adjacentNode.coords]){
       n += 1;
       previousLiberties[adjacentNode.coords] = true;
     }
   });
+  debugger
   return n;
 }
 

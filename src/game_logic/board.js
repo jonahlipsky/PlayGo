@@ -1,12 +1,14 @@
-import crossNode from './cross_node';
-import { hasNullStone, gatherEnemyGroups, connectedNodesSetup, gatherSameColorGroups, nLibertiesInGroup } from '../utilities/board_utils';
+import { hasNullStone, checkAdjacentEnemyGroups, 
+  checkIfWouldBeTaken, checkIfMoveWouldTakeEnemy, koCheck } from '../utilities/piece_interation_util';
+import { gridSetup, generateSimpleGridRepresentation } from '../utilities/board_setup_util';
+
 
 class Board{
   constructor(nCrosses, gameType){
     this.whitePoints = 0;
     this.blackPoints = 0;
     this.color = 'black';
-    this.grid = this.gridSetup(nCrosses);
+    this.grid = gridSetup(nCrosses);
     this.nCrosses = nCrosses;
     this.ip = 20; //inner padding for rendering
     this.scaleConstant = 40;
@@ -15,13 +17,12 @@ class Board{
     this.render();
 
     this.gameType = gameType;
-    this.previousBoardKoCheck = null;
+    this.previousBlackBoard = null;
+    this.previousWhiteBoard = null;
     this.playerName = null;
     this.player1 = null;
     this.player2 = null;
     this.previousMovePlayerName = null;
-    this.oneMoveAgo = null;
-    this.twoMovesAgo = null;
     this.moveEvent = this.moveEvent.bind(this);
   }
 
@@ -37,12 +38,21 @@ class Board{
     switch(this.validMove(color,coords)){
       case true: 
         targetNode.assignStone(color);
-        this.checkAdjacentEnemyGroups(targetNode);
+        checkAdjacentEnemyGroups.call(this, targetNode);
+        this.updatePreviousBoard(color);
         return true;
       case false:
         return false;
       default:
         return false;
+    }
+  }
+
+  updatePreviousBoard(color){
+    if(color === "white"){
+      this.previousWhiteBoard = generateSimpleGridRepresentation(this.grid);
+    } else if (color === "black"){
+      this.previousBlackBoard = generateSimpleGridRepresentation(this.grid);
     }
   }
 
@@ -67,83 +77,21 @@ class Board{
       return false;
     } else if(crossNode.stone){
       return false;
-    } else if (this.checkIfMoveWouldTakeEnemy(crossNode, color)) {
-      console.log('valid move: move would take enemy');
+    } else if(koCheck.call(this, color, coords)) {
+      alert('Invalid move: Ko. Please make a different move.');
+      return false;
+    } else if (checkIfMoveWouldTakeEnemy(crossNode, color)) {
       return true;
     } else if (connectedNodes.some(hasNullStone)){
-      console.log('valid move: connected node has null stones');
       return true;
-    } else if (this.checkIfWouldBeTaken(crossNode, color)){
-      console.log("invalid move: move would be taken by enemy");
+    } else if (checkIfWouldBeTaken(crossNode, color)){
+      alert("Invalid move: suicidal. Please make a different move.");
       return false;
     } else {
       return true;
     }
   }
 
-  checkIfMoveWouldTakeEnemy(node, makingMoveColor){
-    let enemyColor = makingMoveColor === 'white' ? 'black' : 'white';
-    let enemyGroups = gatherSameColorGroups(node, enemyColor);
-    console.log(enemyGroups);
-    debugger
-    let moveWouldTakeEnemy = false;
-    enemyGroups.forEach((group) => {
-      if(nLibertiesInGroup(group) === 1){
-        moveWouldTakeEnemy = true;
-      }
-    });
-    return moveWouldTakeEnemy;
-  }
-
-
-  checkIfWouldBeTaken(crossNode, makingMoveColor){
-    //handles the case where a move would be complete surrounded
-    let enemyAdjacent = 0;
-    crossNode.connectedNodes.forEach(node => {
-      if (node.stone && node.stone.color != makingMoveColor){
-        enemyAdjacent += 1;
-      }
-    });
-    if(enemyAdjacent === crossNode.connectedNodes.length) return true;
-
-    let friendlyGroups = gatherSameColorGroups(crossNode, makingMoveColor);
-    //handles the case where every adjacent group of the same color has exactly one liberty. 
-    if(friendlyGroups.every(group => {
-      return nLibertiesInGroup(group) === 1;
-    })){
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  checkAdjacentEnemyGroups(targetNode){
-    let enemyGroups = gatherEnemyGroups(targetNode);
-    let points = 0;
-    enemyGroups.forEach(group => {
-      if(nLibertiesInGroup(group) === 0){
-        points += group.length;
-        group.forEach(node => {
-          node.stone = null;
-        });
-        this.updateTakenGroupAndNeighbors(group);
-      }
-    });
-    this.awardPoints(points);
-  }
-
-  updateTakenGroupAndNeighbors(group){
-    let alreadySeen = {};
-    group.forEach(node => {
-      node.updateSelf();
-      alreadySeen[node.coords] = true;
-      node.connectedNodes.forEach(adjacentNode => {
-        if(!alreadySeen[adjacentNode.coords]){
-          adjacentNode.updateSelf();
-        }
-      });
-    });
-  }
 
   awardPoints(points){
     if(this.color === "white"){
@@ -165,36 +113,6 @@ class Board{
     white.innerHTML = this.whitePoints === 1 ? 
       `White has captured 1 stone`: 
       `White has captured ${this.whitePoints} stones`;
-  }
-
-
-  gridSetup(nCrosses){
-    let grid = {};
-    for (let i = 0; i < nCrosses; i++) {
-      let column = {};
-      for (let j = 0; j < nCrosses; j++) {
-        column[j] = new crossNode([i, j]); // [x,y]
-        let connectedNodes = connectedNodesSetup(i, j, nCrosses);
-        column[j].connectedNodes = connectedNodes;
-      }      
-      grid[i] = column;
-    }
-    this.mapNodesToGridCoordinates(grid);
-    return grid;
-  }
-
-  mapNodesToGridCoordinates(grid){
-    let nCrosses = Object.keys(grid).length;
-    for (let i = 0; i < nCrosses; i++) {
-      for (let j = 0; j < nCrosses; j++) {
-        let node = grid[i][j];
-        let mappedNodesToCoords = [];
-        node.connectedNodes.forEach(nodeCoordintes => {
-          mappedNodesToCoords.push(grid[nodeCoordintes[0]][nodeCoordintes[1]]);
-        });
-        node.connectedNodes = mappedNodesToCoords;
-      }      
-    }
   }
 
   moveEvent(e){

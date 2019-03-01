@@ -17,7 +17,6 @@ class crossNode{
     });
   }
 
-
   updateSelf(){
     let liberties = this.stone ? this.connectedNodes.length : null;
     let sameColor = [];

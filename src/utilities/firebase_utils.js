@@ -1,5 +1,6 @@
 import firebase from "firebase";
 import moment from 'moment';
+import { generateSimpleGridRepresentation } from './board_setup_util';
 
 export function loadRecentGames(){  //=> [gameName, timestamp]
   const query = firebase.firestore()
@@ -93,17 +94,9 @@ export function sendNewMessage(playerName, gameName, message){
 
 export function submitBoardPosition(board, gameName, coords){
   // Add a new message entry to the Firebase database.
-  let grid = board.grid;
-  let newGrid = Object.assign({});
-  let keys = Object.keys(grid);
-  for (let x = 0; x < keys.length; x++) {
-    for (let y = 0; y < keys.length; y++) {
-      newGrid[x] = newGrid[x] || {};
-      newGrid[x][y] = newGrid[x][y] || {};
-      newGrid[x][y] = grid[x][y].stone ? grid[x][y].stone.color : null;
-    }
-  }
-  board.previousBoardKoCheck = newGrid;
+
+  let newGrid = generateSimpleGridRepresentation(board.grid);
+
   //initialize players one and two. 
   //board method #check valid player verifies using this info
   let player1 = board.player1 || board.playerName;

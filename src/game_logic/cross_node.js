@@ -1,16 +1,16 @@
 import stone from './stone';
 
 class crossNode{
-  constructor(coords, board){ //coord: [x,y]
+  constructor(coords){ //coord: [x,y]
     this.coords = coords;
     this.connectedNodes = [];
     this.sameColorNodes = [];
     this.oppositeColorNodes = [];
     this.stone = null;
-    this.board = board;
   }
 
   assignStone(color){
+    console.log(`assign stone: ${color}`);
     this.stone = new stone(color);
     this.updateSelf();
     this.connectedNodes.forEach(node => {

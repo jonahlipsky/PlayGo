@@ -1,9 +1,8 @@
 import crossNode from './cross_node';
-import { hasNullStone, onlyOneLibertyInGroup, 
-  gatherEnemyGroups, connectedNodesSetup } from '../utilities/board_utils';
+import { hasNullStone, gatherEnemyGroups, connectedNodesSetup, gatherSameColorGroups, nLibertiesInGroup } from '../utilities/board_utils';
 
 class Board{
-  constructor(nCrosses){
+  constructor(nCrosses, gameType){
     this.whitePoints = 0;
     this.blackPoints = 0;
     this.color = 'black';
@@ -15,11 +14,14 @@ class Board{
     this.initialBoardSetup();
     this.render();
 
+    this.gameType = gameType;
     this.previousBoardKoCheck = null;
     this.playerName = null;
     this.player1 = null;
     this.player2 = null;
     this.previousMovePlayerName = null;
+    this.oneMoveAgo = null;
+    this.twoMovesAgo = null;
     this.moveEvent = this.moveEvent.bind(this);
   }
 
@@ -34,13 +36,17 @@ class Board{
     let targetNode = this.grid[coords[0]][coords[1]];
     switch(this.validMove(color,coords)){
       case true: 
+        debugger
+        console.log("make move: true")
         targetNode.assignStone(color);
         this.checkAdjacentEnemyGroups(targetNode);
         return true;
       case false:
+        console.log("make move: false")
+        console.log('didnt make a move')
         return false;
       default:
-        console.log('error: did not hit any options in makeMove');
+        console.log('make move error: did not hit any options in makeMove');
         return false;
     }
   }
@@ -62,36 +68,88 @@ class Board{
     let connectedNodes = crossNode.connectedNodes;
     if(!this.checkValidPlayer()){
       return false;
-    } else if(this.playerName === this.previousMovePlayerName){
+    } else if(!(this.gameType === 'one-player') && this.playerName === this.previousMovePlayerName){
       return false;
     } else if(crossNode.stone){
       return false;
     } else if (this.checkIfMoveWouldTakeEnemy(crossNode, color)) {
+      console.log("valid move: move would take enemy");
       return true;
     } else if (connectedNodes.some(hasNullStone)){
+      console.log('valid move: has some adjacent null stones');
       return true;
-    } else if (connectedNodes.every(this.checkIfWouldBeTaken(color, coords))){
+    } else if (this.checkIfWouldBeTaken(crossNode, color)){
+      console.log("invalid move: would be taken by enemy");
       return false;
     } else {
       return true;
     }
   }
 
+  checkIfMoveWouldTakeEnemy(node, makingMoveColor){
+    let enemyColor = makingMoveColor === 'white' ? 'black' : 'white';
+    let enemyGroups = gatherSameColorGroups(node, enemyColor);
+    let moveWouldTakeEnemy = false;
+    debugger
+    enemyGroups.forEach((group) => {
+      if(nLibertiesInGroup(group) === 1){
+        console.log(group, `nLibertiesInGroup: ${nLibertiesInGroup(group)}`);
+        moveWouldTakeEnemy = true;
+      }
+    });
+    return moveWouldTakeEnemy;
+  }
+
+
+  checkIfWouldBeTaken(crossNode, makingMoveColor){
+    debugger
+    //handles the case where a move would be complete surrounded
+    let enemyAdjacent = 0;
+    crossNode.connectedNodes.forEach(node => {
+      if (node.stone && node.stone.color != makingMoveColor){
+        enemyAdjacent += 1;
+      }
+    });
+    if(enemyAdjacent === crossNode.connectedNodes.length) return true;
+
+    let friendlyGroups = gatherSameColorGroups(crossNode, makingMoveColor);
+    //handles the case where every adjacent group of the same color has exactly one liberty. 
+    if(friendlyGroups.every(group => {
+      return nLibertiesInGroup(group) === 1;
+    })){
+      console.log("all adjacent friendly groups have one liberty")
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   checkAdjacentEnemyGroups(targetNode){
     let enemyGroups = gatherEnemyGroups(targetNode);
-    const reducer = (accumulator, node) => accumulator + node.stone.liberties;
     let points = 0;
     enemyGroups.forEach(group => {
-      if(!group.reduce(reducer, 0)){
+      if(nLibertiesInGroup(group) === 0){
         points += group.length;
         group.forEach(node => {
           node.stone = null;
-          node.updateSelf();
         });
+        this.updateTakenGroupAndNeighbors(group);
       }
     });
-
     this.awardPoints(points);
+  }
+
+  updateTakenGroupAndNeighbors(group){
+    let alreadySeen = {};
+    group.forEach(node => {
+      node.updateSelf();
+      alreadySeen[node.coords] = true;
+      node.connectedNodes.forEach(adjacentNode => {
+        if(!alreadySeen[adjacentNode.coords]){
+          adjacentNode.updateSelf();
+        }
+      });
+    });
   }
 
   awardPoints(points){
@@ -100,36 +158,29 @@ class Board{
     } else {
       this.blackPoints += points;
     }
+    if(this.gameType == 'one-player'){
+      this.updateGamePoints();
+    }
   }
 
-
-  checkIfMoveWouldTakeEnemy(node, makingMoveColor){
-    let moveWouldTakeEnemy = false;
-    node.connectedNodes.forEach((connectedNode) => {
-      if(connectedNode.stone && connectedNode.stone.color != makingMoveColor && 
-        onlyOneLibertyInGroup(connectedNode)){
-        moveWouldTakeEnemy = true;
-      }
-    });
-    return moveWouldTakeEnemy;
+  updateGamePoints(){
+    let white = document.getElementById('white');
+    let black = document.getElementById('black');
+    black.innerHTML = this.blackPoints === 1 ? 
+      `Black has captured 1 stone` : 
+      `Black has captured ${this.blackPoints} stones`;
+    white.innerHTML = this.whitePoints === 1 ? 
+      `White has captured 1 stone`: 
+      `White has captured ${this.whitePoints} stones`;
   }
 
-  checkIfWouldBeTaken(makingMoveColor){
-    return node => {
-      if(node.stone.color != makingMoveColor){
-        return true;
-      } else if(onlyOneLibertyInGroup(node)){
-        return true;
-      }
-    };
-  }
 
   gridSetup(nCrosses){
     let grid = {};
     for (let i = 0; i < nCrosses; i++) {
       let column = {};
       for (let j = 0; j < nCrosses; j++) {
-        column[j] = new crossNode([i, j], this); // [x,y]
+        column[j] = new crossNode([i, j]); // [x,y]
         let connectedNodes = connectedNodesSetup(i, j, nCrosses);
         column[j].connectedNodes = connectedNodes;
       }      
@@ -162,9 +213,14 @@ class Board{
     let coords = [xCoord, yCoord];
     let moveMade = this.makeMove(color,coords);
     this.render();
-    if(moveMade){
+    if(moveMade && this.gameType != 'one-player'){
+      console.log("color switch option one")
       this.color = this.color === 'black' ? 'white' : 'black';
       return coords;
+    } else if(moveMade){
+      console.log("color switch option two")
+      this.color = this.color === 'black' ? 'white' : 'black';
+      return null;
     } else {
       return null;
     }
@@ -180,6 +236,7 @@ class Board{
   }
 
   render(){
+    console.log(this.grid);
     let ip = this.ip;
     let scale = this.scaleConstant;
     let boardSize = scale * this.nCrosses;

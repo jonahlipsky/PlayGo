@@ -28,6 +28,7 @@ function setRecentGames(recentGames){
       recentKeys.push(game[0]);
     }
   });
+
   recentKeys.forEach(key => {
     let game = games[key];
     let li = document.createElement("li");
@@ -133,7 +134,6 @@ export function submitBoardPosition(board, gameName, coords){
     console.error('Error writing new grid to database', error);
   });
 };
-
 
 export function restoreBoardPosition(data, oldBoard){
   oldBoard.color = data.color;

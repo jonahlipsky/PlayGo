@@ -27,6 +27,8 @@ function setGameSelectionFormListener(board){
     e.preventDefault();
     let gameName = document.getElementById('game-name-input').value;
     let username = document.getElementById('username').value;
+    let gameType = document.getElementById('game-type').value;
+    board.gameType = gameType;
 
     if(gameName.length && username.length){
       initializeGame(gameName, username, board);
@@ -40,7 +42,9 @@ function setGameSelectionFormListener(board){
       form.classList.add('hidden');
       title.classList.remove('hidden');
       userPoints.classList.remove('hidden');
-      initializeChat(board.playerName, gameName);
+      if(gameType != 'one-player'){
+        initializeChat(board.playerName, gameName);
+      }
     }
   });
 }

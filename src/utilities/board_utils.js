@@ -2,37 +2,35 @@ export const hasNullStone = (node) => {
   return !node.stone;
 };
 
-
-export const onlyOneLibertyInGroup = node => {
-  //the first order stone can have one liberty,
-  //but no subsequent connected stones can
-  //for this to return true
-  if (node.stone.liberties > 1){
-    return false;
-  }
-
-  let queue = node.sameColorNodes;
-  let previouslyChecked = [node];
-  let checkNode;
-  while (queue.length){
-    checkNode = queue.splice(0,1)[0];
-    if(checkNode.stone.liberties){
-      return false;
-    } else {
-      previouslyChecked.push(checkNode);
-      
-      checkNode.sameColorNodes.forEach((sameColorNode) => {
-        if(!previouslyChecked.includes(sameColorNode)){
-          queue.push(sameColorNode);
-        }
-      });
+export function nLibertiesInGroup(group){
+  console.log(group)
+  debugger
+  let n = 0;
+  let previousLiberties = {};
+  group.forEach(node => {
+    if(node.stone.liberties){
+      n += adjustLiberties(previousLiberties, node);
     }
+  });
+  debugger
+  return n;
+}
 
-  }
-  return true;
-};
+function adjustLiberties(previousLiberties, node){
+  debugger
+  let n = 0;
+  node.connectedNodes.forEach(adjacentNode => {
+    if(!adjacentNode.stone){
+      n += 1;
+      previousLiberties[adjacentNode.coords] = true;
+    }
+  });
+  debugger
+  return n;
+}
 
 export const gatherEnemyGroups = (targetNode) => {
+  debugger
   let adjacentEnemyNodes = targetNode.oppositeColorNodes;
   let enemyGroups = [];
   for (let i = 0; i < adjacentEnemyNodes.length; i++) {
@@ -56,6 +54,37 @@ export const gatherEnemyGroups = (targetNode) => {
     }
   }
   return enemyGroups;
+};
+
+export const gatherSameColorGroups = (targetNode, color) => {
+  debugger
+  let adjacentFriendlyNodes = targetNode.connectedNodes.filter(node => {
+    return node.stone && node.stone.color === color;
+  });
+
+  let friendlyGroups = [];
+  for (let i = 0; i < adjacentFriendlyNodes.length; i++) {
+    let alreadyPresent = false;
+    for (let j = 0; j < friendlyGroups.length; j++) {
+      if(friendlyGroups[j].includes(adjacentFriendlyNodes[i])){
+        alreadyPresent = true;
+      }
+    }
+    if(!alreadyPresent){
+      let group = [];
+      let queue = [adjacentFriendlyNodes[i]];
+      while(queue.length){
+        group.push(queue[0]);
+        queue[0].sameColorNodes.forEach(node => {
+          if ( !group.includes(node) && !queue.includes(node) ) queue.push(node);
+        });
+        queue = queue.slice(1);
+      }
+      friendlyGroups.push(group);
+    }
+  }
+  debugger
+  return friendlyGroups;
 };
 
 export const connectedNodesSetup = (i, j, nCrosses) => {

@@ -153,6 +153,7 @@ class Board{
     this.ctx.fillRect(0,0,boardSize,boardSize); 
     this.ctx.lineWidth = 1;
     this.ctx.strokeStyle = 'black';
+    this.ctx.shadowBlur = 0;
 
     for (let y = ip; y <= boardSize; y += scale) {
       this.ctx.moveTo(ip, y);
@@ -184,6 +185,8 @@ class Board{
           this.ctx.fillStyle = node.stone.color;
           this.ctx.beginPath();
           this.ctx.arc(node.coords[0] * scale + ip, node.coords[1] * scale + ip, pieceRadius, 0, 2*Math.PI, true);
+          this.ctx.shadowColor = "black";
+          this.ctx.shadowBlur = 2;
           this.ctx.fill();
         }
       }

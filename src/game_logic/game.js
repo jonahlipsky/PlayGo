@@ -16,13 +16,49 @@ export function Game(){
   firebase.initializeApp(config);
   const board = new Board(19);
   board.render();
+  setModalListeners();
   setGameSelectionFormListener(board);
+}
+
+function setModalListeners(){
+  
+  document.getElementById('trigger-modal-button').addEventListener('click', () => {
+    openModal();
+  });
+
+  let modalScreen = document.getElementById('modal-screen');
+
+  modalScreen.addEventListener('click', () => {
+    closeModal();
+  });
+}
+
+function openModal(){
+  let modal = document.getElementById('modal');
+  modal.classList.remove('js-modal-close');
+  modal.classList.add('js-modal-open');
+  setTimeout(() => {
+    document.getElementById('modal').classList.add('fade-in');
+  }, 10);
+}
+
+function closeModal(){
+  let modal = document.getElementById('modal')
+  modal.classList.remove('fade-in');
+  setTimeout(() => {
+    modal.classList.remove('js-modal-open');
+    modal.classList.add('js-modal-close');
+  }, 700);
 
 }
 
 function setGameSelectionFormListener(board){
   let form = document.getElementById('game-selection-form');
   loadRecentGames();
+  document.getElementById('modal-form').addEventListener('click', (e) => {
+    e.stopPropagation();
+  });
+  
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     let gameName = document.getElementById('game-name-input').value;
@@ -31,15 +67,20 @@ function setGameSelectionFormListener(board){
     board.gameType = gameType;
 
     if(gameName.length && username.length){
+      closeModal();
       initializeGame(gameName, username, board);
       let title = document.getElementById('title');
       let userPoints = document.getElementById('user-and-points-display');
       let learning = document.getElementById('learning');
       let recentGames = document.getElementById('recent-games-container');
+      let openingInstructions = document.getElementById('opening-instructions');
+      openingInstructions.classList.add('hidden');
       recentGames.classList.add('hidden');
       title.innerHTML = gameName + `: Hello, ${username}`;
       learning.classList.add('hidden');
-      form.classList.add('hidden');
+      setTimeout(() => {
+        form.classList.add('hidden');
+      }, 1000);
       title.classList.remove('hidden');
       userPoints.classList.remove('hidden');
       if(gameType != 'one-player'){

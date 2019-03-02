@@ -20,17 +20,11 @@
     </canvas>
     
     <div class="options-navigation-container">
-      <form id='game-selection-form' class="header-element game-entry-form">
-        <label for="game-name-input">Enter Game Name:</label>
-        <input id='game-name-input' type="text" placeholder="e.g. 'John vs Rachel'">
-        <label for="username">Enter a Username:</label>
-        <input id='username' type="text" placeholder="Username">
-        <select name="game-type" id="game-type">
-          <option value="one-player">One Player</option>
-          <option value="two-player">Two Player</option>
-        </select>
-        <input type="submit" value='Join or Create Game!'>
-      </form>
+
+      <div class="opening-instructions" id="opening-instructions">
+        <h2>Welcome to PlayGo!</h2>
+        <button id="trigger-modal-button">Join or Create A Game!</button>
+      </div>
 
       <div class="recent-games-container" id="recent-games-container">
         <h3>Recent Games</h3>
@@ -78,6 +72,28 @@
 
     </div>
     
+  </div>
+
+  <div class="modal js-modal-close" id="modal">
+    <div class="modal-form" id="modal-form">
+      <form id='game-selection-form' class="header-element game-entry-form">
+        <label for="game-name-input">Enter Game Name:</label>
+        <input id='game-name-input' type="text" placeholder="e.g. 'John vs Rachel'">
+        <label for="username">Enter a Username:</label>
+        <input id='username' type="text" placeholder="Username">
+        <select name="game-type" id="game-type">
+          <option value="one-player">One Player</option>
+          <option value="two-player">Two Player</option>
+        </select>
+        <input type="submit" value='Join or Create Game!'>
+      </form>
+      <p class='instructions'>INSTRUCTIONS</p>
+      <p class='instructions'>To demo the game, please select one player! Currently one player and two player games are supported. Two player involves two players on separate computers whereas one player involves two players playing on the same computer.</p>
+      <p class='instructions'>In order to play against a friend on a different computer, you must enter the exact same game name, but different user names. Once you are logged into the game, you can message back and forth.</p>
+      <p class='instructions'>After each player plays a move, the player names are saved and whenever you log back into the game with the same user name, you will continue to play as the same color.</p>
+      <p class='instructions'>Enjoy!</p>
+    </div>
+    <div class="modal-screen" id="modal-screen"></div>
   </div>
 </body>
 </html>

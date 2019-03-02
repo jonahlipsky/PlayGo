@@ -49,10 +49,11 @@ body{
 #game-element{
   position: relative;
   margin: 70px 0 70px 70px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.5);
 }
 
 .header-element{
-  margin: 70px 0 40px 0;
+  margin: 40px 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -138,12 +139,12 @@ li{
 
 #learning{
   position: absolute;
-  bottom: 20px;
+  bottom: 10px;
   left: 0;
 }
 
 .learning h3{
-  margin: 30px 20px;
+  margin: 10px 20px;
 }
 
 .recent-games-container{
@@ -160,9 +161,6 @@ li{
   margin: 0 20px 10px 20px;
 }
 
-.hidden{
-  display: none; 
-}
 
 a{
   color: rgb(55, 23, 235);
@@ -171,4 +169,65 @@ a{
 
 #game-type{
   margin: 10px 0;
+}
+
+.js-modal-close {
+  display: none;
+}
+
+.js-modal-open{
+  display: block;
+}
+
+.modal-screen{
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 2;
+  background: rgba(219, 219, 219, 0.8);
+}
+
+
+.modal-form{
+  position: fixed;
+  left: 50%;
+  margin-left: -225px;
+  width: 450px;
+  height: 620px;
+  top: 50%;
+  margin-top: -310px;
+  background-color: white;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal{
+  opacity: 0;
+  transition: 1s
+}
+
+
+.fade-in{
+  opacity: 1;
+}
+
+.instructions{
+  margin: 5px 30px;
+}
+
+.opening-instructions{
+  margin-top: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.hidden{
+  display: none; 
 }

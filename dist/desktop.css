@@ -50,7 +50,6 @@ body{
   position: relative;
   margin: 70px 0 70px 70px;
   box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-  background-image: url("../src/images/almond-cherry.jpg")
 }
 
 .header-element{

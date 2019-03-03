@@ -130,13 +130,13 @@ export function submitBoardPosition(board, gameName, coords){
   });
 };
 
-export function restoreBoardPosition(data, oldBoard){
-  oldBoard.color = data.color;
-  oldBoard.whitePoints = data.whitePoints;
-  oldBoard.blackPoints = data.blackPoints;
-  oldBoard.player1 = data.playerOne;
-  oldBoard.player2 = data.playerTwo;
-  oldBoard.previousMovePlayerName = data.mostRecentPlayer;
+export function restoreBoardPosition(data, board){
+  board.color = data.color;
+  board.whitePoints = data.whitePoints;
+  board.blackPoints = data.blackPoints;
+  board.player1 = data.playerOne;
+  board.player2 = data.playerTwo;
+  board.previousMovePlayerName = data.mostRecentPlayer;
 
   let white = document.getElementById('white');
   let black = document.getElementById('black');
@@ -147,10 +147,32 @@ export function restoreBoardPosition(data, oldBoard){
     `White has captured 1 stone`: 
     `White has captured ${data.whitePoints} stones`;
 
-  applyNewBoardPosition(data, oldBoard);
+  applyNewBoardPosition(data, board);
 }
 
 //helper functions
+
+function applyNewBoardPosition(data, oldBoard){
+  let newBoard = data.gameBoard;
+  for (let x = 0; x < oldBoard.nCrosses; x++) {
+    for (let y = 0; y < oldBoard.nCrosses; y++) {
+      let oldNode = oldBoard.grid[x][y];
+      let newStoneValue = newBoard[x][y];
+      if(!(oldNode.stone === newStoneValue)) { // this means they are not both null
+        if(oldNode.stone && !newStoneValue){ // previously was a stone, now its not
+          oldNode.assignStone(null);
+        } else if (!oldNode.stone && newStoneValue){ // previously wasn't a stone, now it is
+          oldNode.assignStone(newStoneValue);
+        }
+      }
+      oldBoard.render();
+    }
+  }
+  if(yourTurn(data, oldBoard)){
+    oldBoard.renderMostRecentMove(data.coords);
+  }
+}
+
 
 function toggleYourTurn(data, board){
   let yourTurnElement = document.getElementById('your-turn');
@@ -179,24 +201,3 @@ function appendMessage(data, chatUl){
 }
 
 
-function applyNewBoardPosition(data, oldBoard){
-  let newBoard = data.gameBoard;
-  for (let x = 0; x < oldBoard.nCrosses; x++) {
-    for (let y = 0; y < oldBoard.nCrosses; y++) {
-      let oldNode = oldBoard.grid[x][y];
-      let newStoneValue = newBoard[x][y];
-      if(!(oldNode.stone === newStoneValue)) { // this means they are not both null
-        if(oldNode.stone && !newStoneValue){ // previously was a stone, now its not
-          oldNode.stone = null;
-          oldNode.updateSelf();
-        } else if (!oldNode.stone && newStoneValue){ // previously wasn't a stone, now it is
-          oldNode.assignStone(newStoneValue);
-        }
-      }
-      oldBoard.render();
-    }
-  }
-  if(yourTurn(data, oldBoard)){
-    oldBoard.renderMostRecentMove(data.coords);
-  }
-}

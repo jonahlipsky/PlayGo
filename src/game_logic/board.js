@@ -149,8 +149,8 @@ class Board{
     let scale = this.scaleConstant;
     let boardSize = scale * this.nCrosses;
     let pieceRadius = Math.floor(((scale * 17) / 40));
-    this.ctx.fillStyle = "#D5B077"; 
-    this.ctx.fillRect(0,0,boardSize,boardSize); 
+    // this.ctx.fillStyle = "#D5B077"; 
+    // this.ctx.fillRect(0,0,boardSize,boardSize); 
     this.ctx.lineWidth = 1;
     this.ctx.strokeStyle = 'black';
     this.ctx.shadowBlur = 0;

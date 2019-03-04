@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" media="screen" href="./main.css" />
   <link rel="shortcut icon" type="image/x-icon" href="gopiece.ico"/>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
   <script src="bundle.js"></script>
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-82452308-3"></script>
@@ -84,6 +85,9 @@
 
   <div class="modal js-modal-close" id="modal">
     <div class="modal-form" id="modal-form">
+      <button class="modal-close" id="modal-close">
+          <i class="fas fa-times"></i>
+      </button>
       <form id='game-selection-form' class="header-element game-entry-form">
         <label for="game-name-input">Enter Game Name:</label>
         <input id='game-name-input' type="text" placeholder="e.g. 'John vs Rachel'">
@@ -101,7 +105,11 @@
       <p class='instructions'>After each player plays a move, the player names are saved and whenever you log back into the game with the same user name, you will continue to play as the same color.</p>
       <p class='instructions'>Enjoy!</p>
     </div>
-    <div class="modal-screen" id="modal-screen"></div>
+    <div class="modal-screen" id="modal-screen">
+      <button class="modal-close" >
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
   </div>
 </body>
 </html>

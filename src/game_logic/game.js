@@ -27,10 +27,6 @@ function setModalListeners(){
   });
 
   let modalScreen = document.getElementById('modal-screen');
-  let modalClose = document.getElementById('modal-close');
-  modalClose.addEventListener('click', () => {
-    closeModal();
-  });
   modalScreen.addEventListener('click', () => {
     closeModal();
   });

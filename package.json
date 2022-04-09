@@ -29,6 +29,6 @@
     "firebase": "^6.3.0",
     "firebase-admin": "^8.2.0",
     "firebase-tools": "^7.1.0",
-    "moment": "^2.24.0"
+    "moment": "^2.29.2"
   }
 }

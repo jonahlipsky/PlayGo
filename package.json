@@ -20,8 +20,8 @@
   },
   "homepage": "https://github.com/jonahlipsky/job_search_js_project#readme",
   "devDependencies": {
-    "webpack": "^4.29.2",
-    "webpack-cli": "^3.2.3",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^3.1.14"
   },
   "dependencies": {
